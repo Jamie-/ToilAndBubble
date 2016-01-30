@@ -11,6 +11,11 @@ public class Ingredients : MonoBehaviour {
     public Text rightBinText;
     private bool leftShiftState;
     private bool rightShiftState;
+    public static bool gameStarted;
+
+    public Text StartCountdown;
+    private GameObject[] hide;
+    private float startCountdownTime;
 
     private GameObject[] ingredients;
     private GameObject[] coolTimers;
@@ -36,6 +41,8 @@ public class Ingredients : MonoBehaviour {
         // Hide binning text
         leftBinText.enabled = false;
         rightBinText.enabled = false;
+        gameStarted = false;
+        startCountdownTime = 3.4f;
 
         int i = 0; // Main counter for setup
 
@@ -62,88 +69,111 @@ public class Ingredients : MonoBehaviour {
             generateNewColor(i); // Generate random ingredient starting colors
         }
 
-        // Hide binning text
-        
-        
+        // Hide pre game components
+        hide = GameObject.FindGameObjectsWithTag("HideBeforeGame");
+        foreach (GameObject obj in hide)
+        {
+            obj.GetComponent<Renderer>().enabled = false;
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        // Check ingredient keys
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !coolActive[0])
+        if (gameStarted)
         {
-            ingredientUsed(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && !coolActive[1])
-        {
-            ingredientUsed(2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && !coolActive[2])
-        {
-            ingredientUsed(3);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4) && !coolActive[3])
-        {
-            ingredientUsed(4);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5) && !coolActive[4])
-        {
-            ingredientUsed(5);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6) && !coolActive[5])
-        {
-            ingredientUsed(6);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7) && !coolActive[6])
-        {
-            ingredientUsed(7);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha8) && !coolActive[7])
-        {
-            ingredientUsed(8);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha9) && !coolActive[8])
-        {
-            ingredientUsed(9);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha0) && !coolActive[9])
-        {
-            ingredientUsed(10);
-        }
-
-        // Check bin keys
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-        {
-            leftShiftState = true;
-            leftBinText.enabled = true;
-        }
-        if (Input.GetKeyDown(KeyCode.RightAlt))
-        {
-            rightShiftState = true;
-            rightBinText.enabled = true;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftAlt))
-        {
-            leftShiftState = false;
-            leftBinText.enabled = false;
-        }
-        if (Input.GetKeyUp(KeyCode.RightAlt))
-        {
-            rightShiftState = false;
-            rightBinText.enabled = false;
-        }
-
-        updateIngredientTimers(); // update all timers once per frame
-
-        // Set any required new colors
-        for (int i = 0; i < 10; i++)
-        {
-            if (newColor[i])
+            // Check ingredient keys
+            if (Input.GetKeyDown(KeyCode.Alpha1) && !coolActive[0])
             {
-                generateNewColor(i); // generate and set new color
-                newColor[i] = false; // clear new color flag
+                ingredientUsed(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && !coolActive[1])
+            {
+                ingredientUsed(2);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && !coolActive[2])
+            {
+                ingredientUsed(3);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4) && !coolActive[3])
+            {
+                ingredientUsed(4);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha5) && !coolActive[4])
+            {
+                ingredientUsed(5);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha6) && !coolActive[5])
+            {
+                ingredientUsed(6);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha7) && !coolActive[6])
+            {
+                ingredientUsed(7);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha8) && !coolActive[7])
+            {
+                ingredientUsed(8);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha9) && !coolActive[8])
+            {
+                ingredientUsed(9);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha0) && !coolActive[9])
+            {
+                ingredientUsed(10);
+            }
+
+            // Check bin keys
+            if (Input.GetKeyDown(KeyCode.LeftAlt))
+            {
+                leftShiftState = true;
+                leftBinText.enabled = true;
+            }
+            if (Input.GetKeyDown(KeyCode.RightAlt))
+            {
+                rightShiftState = true;
+                rightBinText.enabled = true;
+            }
+            if (Input.GetKeyUp(KeyCode.LeftAlt))
+            {
+                leftShiftState = false;
+                leftBinText.enabled = false;
+            }
+            if (Input.GetKeyUp(KeyCode.RightAlt))
+            {
+                rightShiftState = false;
+                rightBinText.enabled = false;
+            }
+
+            updateIngredientTimers(); // update all timers once per frame
+
+            // Set any required new colors
+            for (int i = 0; i < 10; i++)
+            {
+                if (newColor[i])
+                {
+                    generateNewColor(i); // generate and set new color
+                    newColor[i] = false; // clear new color flag
+                }
+            }
+        } else
+        {
+            // Run inital countdown timer
+            startCountdownTime -= Time.deltaTime;
+            if (startCountdownTime.ToString("0") == "0") StartCountdown.text = "Go!";
+            else StartCountdown.text = startCountdownTime.ToString("0");
+
+            if (startCountdownTime < 0)
+            {
+                foreach (GameObject obj in hide)
+                {
+                    obj.GetComponent<Renderer>().enabled = true;
+                }
+                StartCountdown.enabled = false;
+                gameStarted = true;
             }
         }
+        
         
     }
 

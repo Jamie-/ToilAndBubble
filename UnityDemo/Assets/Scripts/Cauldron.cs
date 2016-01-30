@@ -27,6 +27,7 @@ public class Cauldron : MonoBehaviour {
         cauldGreen = (byte) Random.Range(0, 255);
         cauldBlue = (byte) Random.Range(0, 255);
         updateColor(); // set it
+        countdown.enabled = false; // Hide timer
     }
     
     // Update is called once per frame
@@ -35,17 +36,27 @@ public class Cauldron : MonoBehaviour {
         framesPassed++;
         frames.text = "Frames: " + framesPassed.ToString();
 
-        // Game timer
-        if (timer >= 0) { 
-            timer -= Time.deltaTime;
-            countdown.text = timer.ToString("0") + "s";
-        } else
+        if (Ingredients.gameStarted)
         {
-            countdown.text = "GO"; // Game over
-        }
+            if(!countdown.enabled)
+            {
+                countdown.enabled = true; // Enbable it when game is running
+            }
+            // Game timer
+            if (timer >= 0)
+            {
+                timer -= Time.deltaTime;
+                countdown.text = timer.ToString("0") + "s";
+            }
+            else
+            {
+                countdown.text = "GO"; // Game over
+            }
 
-        // Update cauldron color
-        updateColor();
+            // Update cauldron color
+            updateColor();
+        }
+        
     }
 
     // Set color of cauldron to it's instance component color values
