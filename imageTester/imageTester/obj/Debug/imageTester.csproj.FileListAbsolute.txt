@@ -1,1 +1,10 @@
 h:\visual studio 2015\Projects\imageTester\imageTester\bin\Debug\imageTester.exe.config
+H:\rhysplayground\gamejam\git\imageTester\imageTester\bin\Debug\imageTester.exe.config
+H:\rhysplayground\gamejam\git\imageTester\imageTester\bin\Debug\imageTester.exe
+H:\rhysplayground\gamejam\git\imageTester\imageTester\bin\Debug\imageTester.pdb
+H:\rhysplayground\gamejam\git\imageTester\imageTester\obj\Debug\imageTester.csprojResolveAssemblyReference.cache
+H:\rhysplayground\gamejam\git\imageTester\imageTester\obj\Debug\imageTester.Form1.resources
+H:\rhysplayground\gamejam\git\imageTester\imageTester\obj\Debug\imageTester.Properties.Resources.resources
+H:\rhysplayground\gamejam\git\imageTester\imageTester\obj\Debug\imageTester.csproj.GenerateResource.Cache
+H:\rhysplayground\gamejam\git\imageTester\imageTester\obj\Debug\imageTester.exe
+H:\rhysplayground\gamejam\git\imageTester\imageTester\obj\Debug\imageTester.pdb
