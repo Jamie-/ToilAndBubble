@@ -10,7 +10,7 @@ public class StartGame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void startGame()
     {
-        Application.LoadLevel(1);
+        Application.LoadLevel("Main");
     }
 
     public void quitGame()
