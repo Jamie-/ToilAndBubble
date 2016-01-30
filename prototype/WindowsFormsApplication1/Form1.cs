@@ -150,24 +150,53 @@ namespace WindowsFormsApplication1
             HSVColor cauldrun = new HSVColor(backColor1);
             HSVColor Ingredent = new HSVColor(backColor2);
             Color rval = backColor1;
-            if (pos == "+")
-            {
+            
+                double delta1;
+                double delta2;
+
                 //rval = Color.FromArgb(Math.Min(255, rval.R + backColor2.R), Math.Min(255, rval.G + backColor2.G), Math.Min(255, rval.B + backColor2.B));
-                cauldrun.hue += (Ingredent.hue- cauldrun.hue) * potincy;
+                if (cauldrun.hue > Ingredent.hue)
+                {
+                    delta1 = (255 - cauldrun.hue) + Ingredent.hue;
+                }
+                else
+                {
+                    delta1 = (255 - Ingredent.hue) + cauldrun.hue;
+                }
+
+                delta2 = Ingredent.hue - cauldrun.hue;
+                if (Math.Abs(delta1) >= Math.Abs(delta2))
+                {
+                    cauldrun.hue += potincy * delta2;
+           
+                }
+                else
+                {
+                    if (cauldrun.hue > Ingredent.hue)
+                    {
+                        cauldrun.hue += potincy * delta1;
+                        cauldrun.hue %= 255;
+
+                    }
+                    else
+                    {
+                        cauldrun.hue += potincy * -1 * delta1;
+                        if (cauldrun.hue < 0)
+                        {
+                            cauldrun.hue = 255 + cauldrun.hue;
+                        }
+                    }
+                }
+
+                   // cauldrun.hue += (Ingredent.hue- cauldrun.hue) * potincy;
                 rval = cauldrun.RgbColor;
 
-            }
-            else
-            if (pos == "-")
-            {
-
-                // rval = Color.FromArgb(Math.Max(0, rval.R - backColor2.R), Math.Max(0, rval.G - backColor2.G), Math.Max(0, rval.B - backColor2.B));
-                //  rval=Color
-                cauldrun.hue -= (Ingredent.hue - cauldrun.hue) * potincy;
-                rval = cauldrun.RgbColor;
-            }
+            
             return rval;
         }
+
+
+
 
         private void Tmr_Tick(object sender, EventArgs e)
         {
@@ -189,8 +218,8 @@ namespace WindowsFormsApplication1
             if (tick >= 6000)
             {
                 tmr.Enabled = false;
-                MessageBox.Show("game over");
                 lblwinning.Text = "Won";
+                MessageBox.Show("game over");
                 ShowResults();
             }
         }
@@ -199,8 +228,8 @@ namespace WindowsFormsApplication1
         {
             int[] p1score = GetScore(this.RightTarget.BackColor, Cauldren.BackColor);
             int[] p2score = GetScore(this.LeftTarget.BackColor, Cauldren.BackColor);
-            lblPlayer1score.Text = String.Format("red: {0}\ngreen: {1}\n blue: {2}\n total: {3}", p1score[0], p1score[1], p1score[2], p1score[0] + p1score[2] + p1score[1]);
-            lblPlayer2Score.Text = String.Format("red: {0}\ngreen: {1}\n blue: {2}\n total: {3}", p2score[0], p2score[1], p2score[2], p2score[0] + p2score[2] + p2score[1]);
+            lblPlayer1score.Text = String.Format("Acuracy: {0}%",  (p1score[0] + p1score[2] + p1score[1])/3);
+            lblPlayer2Score.Text = String.Format("Acuracy: {0}%",  (p2score[0] + p2score[2] + p2score[1])/3);
             int p2total = p2score[0] + p2score[2] + p2score[1];
             int p1total = p1score[0] + p1score[2] + p1score[1];
             if (p2total != p1total)
@@ -226,7 +255,8 @@ namespace WindowsFormsApplication1
             scores[0] = (int)(100 * (1 - ((double)Math.Abs(Target.R - Cauldren.R) / 255)));
             scores[1] = (int)(100 * (1 - ((double)Math.Abs(Target.G - Cauldren.G) / 255)));
             scores[2] = (int)(100 * (1 - ((double)Math.Abs(Target.B - Cauldren.B) / 255)));
-            return scores;
+           
+                return scores;
         }
 
         private void CreateIng(ingred ingred)
@@ -279,6 +309,7 @@ namespace WindowsFormsApplication1
                 this.p = p;
                 this.pos = pos;
                 this.prg = prg;
+                pos.Hide();
             }
         }
     }
