@@ -12,37 +12,20 @@ namespace imageTester
 {
     public partial class Form1 : Form
     {
-PixelSpaceshipFitter fitter;
+//PixelSpaceshipFitter fitter;
 PixelSpaceship ship;
 miniMT rng; // want a slightly more robust rng for 32 significant bits
 int currentSeed = 0;
 
 
-
-
-void next()
-{
-   // background(255);
-    fitter.make(++currentSeed);
-}
-
-void draw()
-{
-     pictureBox1.BackgroundImage= fitter.drawone();
-    if (fitter.at00())
-        next();
-}
-
         public Form1()
         {
-            InitializeComponent();
-            Image tst = new Bitmap(50, 50);
-            Graphics g = Graphics.FromImage(tst);
-            g.FillRectangle(new SolidBrush(Color.Aqua), new Rectangle(25, 25, 25, 25));
-            pictureBox1.BackgroundImage = tst;        
-            rng = new miniMT();            
-            fitter = new PixelSpaceshipFitter(480 / 16, 480 / 16, rng);
-            next();
+            InitializeComponent();                 
+            rng = new miniMT();
+            ship = new PixelSpaceship(rng);
+            
+            // fitter = new PixelSpaceshipFitter(480 / 16, 480 / 16, rng);
+            // next();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -51,9 +34,13 @@ void draw()
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-            next();
-            draw();
+            ship.setScales(7, 7);
+            ship.setMargins(2 * 7, 2 * 7);
+            ship.setSeed(rng.generate());
+            ship.generate();
+            ship.recolor();
+            Image i = ship.draw(480 / 16, 480 / 16);
+            pictureBox1.BackgroundImage = i;
         }
     }
 }
@@ -218,7 +205,7 @@ Click mouse to advance early to next pattern<br>
                     else h = (colorseed & 0xff000000) >> 24;
                     Brush b = new SolidBrush(HSBToRGB(h, mysat/255f, mybri/255f));
                     Pen p = new Pen(b);
-                    g.DrawRectangle(p, new Rectangle(x1, y1, xscale, yscale));
+                   // g.DrawRectangle(p, new Rectangle(x1, y1, xscale, yscale));
                     //  colorMode(HSB);
                    // fill(h, mysat, mybri);
                    // rect(x1, y1, xscale, yscale);
@@ -243,140 +230,6 @@ Click mouse to advance early to next pattern<br>
     private Color HSBToRGB(uint hue, float saturation, float brightness)
     {
         return Color.Black;
-
-    }
-}
-class PixelSpaceshipFitter
-{
-    PixelSpaceship ship;
-    int cols, rows;
-    int col, row;
-    int seed;
-    miniMT rng;
-    // cells store the box fit pattern, contents are byte encoded as:
-    // (cell >> 16) & 0xff == work to do
-    // (cell) & 0xff == size of allocated area
-    // (this somewhat odd encoding scheme is a remnant of the
-    //  fractal subdivision method used for the pixel robots t-shirt image)
-    int[,] cells;
-    // the types of work that may occur in a cell
-    const int WORK_NONE = 0;
-    const int WORK_DONE = 1;
-    public PixelSpaceshipFitter(int c, int r,miniMT rng)
-    {
-        this.rng = rng;
-        cols = c;
-        rows = r;
-        ship = new PixelSpaceship(rng);
-        cells = new int[rows,cols];
-    }
-    // reset the pattern grid
-    void wipe()
-    {
-        for (int r = 0; r < rows; r++)
-            for (int c = 0; c < cols; c++)
-                cells[r,c] = 0;
-        col = row = 0;
-    }
-    // determines if cells already contain defined area(s)
-    bool isOccupied(int col, int row, int wid, int hei)
-    {
-        for (int r = row; r < row + hei; r++)
-        {
-            for (int c = col; c < col + wid; c++)
-            {
-                if (cells[r,c] != 0)
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    // marks cells as containing an area
-    void doOccupy(int col, int row, int wid, int hei, int val)
-    {
-        for (int r = row; r < row + hei; r++)
-        {
-            for (int c = col; c < col + wid; c++)
-            {
-                cells[r,c] = val;
-            }
-        }
-    }
-    // define the pattern grid
-    public void make(int s)
-    {
-        seed = s;
-        Random random = new Random(s);
-        wipe();
-        for (int r = 0; r < rows; r++)
-        {
-            for (int c = 0; c < cols; c++)
-            {
-                int cell = cells[r,c];
-                if (cell != 0) continue;
-                // figure out the size of area to occupy
-                int sizer, limit;
-                do
-                {
-                    limit = Math.Min(cols - c, rows - r);
-                    limit = Math.Min(limit, 8);
-                    sizer = random.Next(limit) + 1;
-                } while (isOccupied(c, r, sizer, sizer));
-                // flag all cells as occupied by width x height area
-                doOccupy(c, r, sizer, sizer, sizer);
-                // indicate work to perform in upper-left cell
-                int work = WORK_DONE;
-                cells[r,c] |= (work << 16);
-            } // for c
-        } // for r
-    }
-    // is cursor at 0,0
-  public  bool at00()
-    {
-        return ((col == 0) && (row == 0));
-    }
-    // step the cursor forward
-    void advance(int advcol)
-    {
-        col += advcol;
-        if (col >= cols)
-        {
-            col = 0;
-            row++;
-            if (row >= rows)
-            {
-                row = 0;
-            }
-        }
-    }
-    // advance through the pattern and draw the next robot
-    public Image drawone()
-    {
-        bool drawn = false;
-        do
-        {
-            int cell = cells[row,col];
-            int work = (cell >> 16) & 0xff;
-            int sizer = (cell) & 0xff;
-            if (work != WORK_NONE)
-            {
-                int y1 = 16 * row;
-                int x1 = 16 * col;
-                ship.setScales(sizer, sizer);
-                ship.setMargins(2 * sizer, 2 * sizer);
-                ship.setSeed(rng.generate());
-                ship.generate();
-                ship.recolor();
-                Image i =ship.draw(x1, y1);
-                drawn = true;
-                return i;
-            }
-            advance(sizer);
-            if (at00()) return null;
-        } while (!drawn);
-        return null;
     }
 }
 
