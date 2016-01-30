@@ -10,10 +10,13 @@ public class Cauldron : MonoBehaviour {
     public Text frames;
     public Renderer rend;
 
-    double h, s = 0.6, v = 1d;
+    static double h, s = 0.6, v = 1d;
+    public static double spread = 30d;
 
     public Text countdown;
     private float timer;
+
+    public static double Hue { get { return h; } }
 
     public static System.Random r = new System.Random();
 
@@ -67,15 +70,15 @@ public class Cauldron : MonoBehaviour {
     }
 
     // Allow other methods to set cauldron's color value - needs changing to modify color instead of reseting it
-    public void setColorValues(double h)
+    public static void setColorValues(double h)
     {
-        setColorValues(h, this.s, this.v);
+        setColorValues(h, s, v);
     }
-    public void setColorValues(double h, double s, double v)
+    public static void setColorValues(double hue, double sat, double val)
     {
-        this.h = h;
-        this.s = s;
-        this.v = v;
+        h = hue;
+        s = sat;
+        v = val;
     }
 
     private const double blendFactor = 0.5;
