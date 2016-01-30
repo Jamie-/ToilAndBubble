@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Assets.Scripts;
 
 public class Cauldron : MonoBehaviour {
     public Color color;
@@ -18,10 +19,13 @@ public class Cauldron : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        cauldRed = (byte) Random.Range(0, 255);
-        cauldGreen = (byte) Random.Range(0, 255);
-        cauldBlue = (byte) Random.Range(0, 255);
-        color = new Color32(cauldRed, cauldGreen, cauldBlue, 1);
+        //Set colour---------------
+        double h, s = 0.6, v = 1d;
+        System.Random r = new System.Random();
+        h = r.NextDouble() * 360d;
+        color = new HSVColor(h, s,v).RgbColor;
+        //----------------------------------
+
         Renderer rend = GetComponent<Renderer>();
         rend.material.color = color;
 

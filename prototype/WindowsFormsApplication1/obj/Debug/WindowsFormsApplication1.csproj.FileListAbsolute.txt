@@ -16,3 +16,6 @@ H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\Windo
 H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
 H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
 H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+H:\Toil_And_Trouble\ToilAndBubble\prototype\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+H:\Toil_And_Trouble\ToilAndBubble\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+H:\Toil_And_Trouble\ToilAndBubble\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
