@@ -51,7 +51,7 @@ public class Cauldron : MonoBehaviour {
             }
             else
             {
-                countdown.text = "GO"; // Game over
+                Application.LoadLevel("End");
             }
 
             // Update cauldron color
