@@ -55,7 +55,7 @@ public class Cauldron : MonoBehaviour {
         rend.material.color = color;
     }
 
-    // Allow other methods to set cauldron's color value
+    // Allow other methods to set cauldron's color value - needs changing to modify color instead of reseting it
     public static void setColorValues(byte red, byte green, byte blue) {
         cauldRed = red;
         cauldGreen = green;

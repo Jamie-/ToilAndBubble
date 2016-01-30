@@ -3,7 +3,12 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class Ingredients : MonoBehaviour {
-    private const float cooldownVal = 5;
+    private const float cooldownVal = 5; // Cool down time constant (seconds)
+
+    public Text leftBinText;
+    public Text rightBinText;
+    private bool leftShiftState;
+    private bool rightShiftState;
 
     private GameObject[] ingredients;
     private GameObject[] coolTimers;
@@ -25,6 +30,10 @@ public class Ingredients : MonoBehaviour {
         ingredReds = new byte[10];
         ingredGreens = new byte[10];
         ingredBlues = new byte[10];
+
+        // Hide binning text
+        leftBinText.enabled = false;
+        rightBinText.enabled = false;
 
         int i = 0; // Main counter for setup
 
@@ -50,11 +59,15 @@ public class Ingredients : MonoBehaviour {
             coolTimers[i] = GameObject.Find("C" + (i+1)); // Build arrray of coolTimers for fast access
             generateNewColor(i); // Generate random ingredient starting colors
         }
+
+        // Hide binning text
+        
         
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        // Check ingredient keys
         if (Input.GetKeyDown(KeyCode.Alpha1) && !coolActive[0])
         {
             ingredientUsed(1);
@@ -96,6 +109,28 @@ public class Ingredients : MonoBehaviour {
             ingredientUsed(10);
         }
 
+        // Check bin keys
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            leftShiftState = true;
+            leftBinText.enabled = true;
+        }
+        if (Input.GetKeyDown(KeyCode.RightAlt))
+        {
+            rightShiftState = true;
+            rightBinText.enabled = true;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftAlt))
+        {
+            leftShiftState = false;
+            leftBinText.enabled = false;
+        }
+        if (Input.GetKeyUp(KeyCode.RightAlt))
+        {
+            rightShiftState = false;
+            rightBinText.enabled = false;
+        }
+
         updateIngredientTimers(); // update all timers once per frame
 
         // Set any required new colors
@@ -119,14 +154,39 @@ public class Ingredients : MonoBehaviour {
         Color color = new Color32(ingredReds[index], ingredGreens[index], ingredBlues[index], 1);
         Renderer rend = ingredients[index].GetComponent<Renderer>();
         rend.material.color = color;
-
     }
 
     // Called on use ingredient key press
     void ingredientUsed(int ingNo)
     {
-        Cauldron.setColorValues(ingredReds[ingNo - 1], ingredGreens[ingNo - 1], ingredBlues[ingNo - 1]); //set cauldron to ingredient's color - needs changing later
-        setIngredientTimer(ingNo - 1); // set timer for that ingredient
+        if (ingNo <= 5)
+        {
+            // Left Player
+            if (leftShiftState)
+            {
+                // Bin Ingredient
+                setIngredientTimer(ingNo - 1); // set timer for that ingredient
+            } else
+            {
+                // Use Ingredient
+                Cauldron.setColorValues(ingredReds[ingNo - 1], ingredGreens[ingNo - 1], ingredBlues[ingNo - 1]);
+                setIngredientTimer(ingNo - 1); // set timer for that ingredient
+            }
+        } else
+        {
+            // Right Player
+            if (rightShiftState)
+            {
+                // Bin Ingredient
+                setIngredientTimer(ingNo - 1); // set timer for that ingredient
+            }
+            else
+            {
+                // Use Ingredient
+                Cauldron.setColorValues(ingredReds[ingNo - 1], ingredGreens[ingNo - 1], ingredBlues[ingNo - 1]);
+                setIngredientTimer(ingNo - 1); // set timer for that ingredient
+            }
+        }
     }
 
     // Starts timer for ingredient
