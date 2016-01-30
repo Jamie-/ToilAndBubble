@@ -3,40 +3,48 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class Ingredients : MonoBehaviour {
-    private const float cooldownVal = 5;
+    private const float cooldownVal = 5; // Cool down time constant (seconds)
+
+    public Material normalMaterial;
+    public Material inActive;
+    public Text leftBinText;
+    public Text rightBinText;
+    private bool leftShiftState;
+    private bool rightShiftState;
+    public static bool gameStarted;
+
+    public Text StartCountdown;
+    private GameObject[] hide;
+    private float startCountdownTime;
 
     private GameObject[] ingredients;
     private GameObject[] coolTimers;
     private bool[] coolActive;
+    private bool[] newColor;
     private float[] coolTime;
     private byte[] ingredReds;
     private byte[] ingredGreens;
     private byte[] ingredBlues;
 
-    public GameObject cauld;
-    private bool p1Mod;
-    private bool p2Mod;
-
     // Use this for initialization
     void Start () {
-        int i = 0;
-        cauld = GameObject.Find("Cauldron");
+        // Set up all arrays
         ingredients = new GameObject[10];
         coolTimers = new GameObject[10];
         coolTime = new float[10];
         coolActive = new bool[10];
+        newColor = new bool[10];
+        ingredReds = new byte[10];
+        ingredGreens = new byte[10];
+        ingredBlues = new byte[10];
 
-        // Set all coolActive values to false
-        for (i = 0; i < 10; i++)
-        {
-            coolActive[i] = false;
-        }
+        // Hide binning text
+        leftBinText.enabled = false;
+        rightBinText.enabled = false;
+        gameStarted = false;
+        startCountdownTime = 3.4f;
 
-        // Set all coolTime values to 0
-        for (i = 0; i < 10; i++)
-        {
-            coolTime[i] = 0;
-        }
+        int i = 0; // Main counter for setup
 
         // Build array of ingredients for fast access
         int objCount = 0;
@@ -51,104 +59,196 @@ public class Ingredients : MonoBehaviour {
             objCount++;
         }
 
-        // Build arrray of coolTimers for fast access
-        objCount = 0;
-        for (i = 1; i <= 10; i++)
-        {
-            coolTimers[objCount] = GameObject.Find("C" + i);
-            objCount++;
-        }
-
-        // Generate random starting colors
-        ingredReds = new byte[10];
-        ingredGreens = new byte[10];
-        ingredBlues = new byte[10];
+        // Main init loop
         for (i = 0; i < 10; i++)
         {
-            ingredReds[i] = (byte) Random.Range(0, 255);
-            ingredGreens[i] = (byte)Random.Range(0, 255);
-            ingredBlues[i] = (byte) Random.Range(0, 255);
+            coolActive[i] = false; // Set all coolActive values to false
+            newColor[i] = true; // Make all colors require updating
+            coolTime[i] = 0; // Set all coolTime values to 0
+            coolTimers[i] = GameObject.Find("C" + (i+1)); // Build arrray of coolTimers for fast access
+            generateNewColor(i); // Generate random ingredient starting colors
         }
 
-        // Set starting colors
-        i = 0;
-        foreach (Transform child in transform)
+        // Hide pre game components
+        hide = GameObject.FindGameObjectsWithTag("HideBeforeGame");
+        foreach (GameObject obj in hide)
         {
-            Color color = new Color32(ingredReds[i], ingredGreens[i], ingredBlues[i], 1);
-            Renderer rend = child.GetComponent<Renderer>();
-            rend.material.color = color;
-            i++;
+            obj.GetComponent<Renderer>().enabled = false;
         }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !coolActive[0])
+        if (gameStarted)
         {
-            changeColor(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && !coolActive[1])
-        {
-            changeColor(2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && !coolActive[2])
-        {
-            changeColor(3);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4) && !coolActive[3])
-        {
-            changeColor(4);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5) && !coolActive[4])
-        {
-            changeColor(5);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6) && !coolActive[5])
-        {
-            changeColor(6);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7) && !coolActive[6])
-        {
-            changeColor(7);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha8) && !coolActive[7])
-        {
-            changeColor(8);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha9) && !coolActive[8])
-        {
-            changeColor(9);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha0) && !coolActive[9])
-        {
-            changeColor(10);
-        }
-
-        for (int i = 0; i < 10; i++)
-        {
-            if (coolActive[i])
+            // Check ingredient keys
+            if (Input.GetKeyDown(KeyCode.Alpha1) && !coolActive[0])
             {
-                if (coolTime[i] <= 0)
+                ingredientUsed(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && !coolActive[1])
+            {
+                ingredientUsed(2);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && !coolActive[2])
+            {
+                ingredientUsed(3);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4) && !coolActive[3])
+            {
+                ingredientUsed(4);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha5) && !coolActive[4])
+            {
+                ingredientUsed(5);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha6) && !coolActive[5])
+            {
+                ingredientUsed(6);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha7) && !coolActive[6])
+            {
+                ingredientUsed(7);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha8) && !coolActive[7])
+            {
+                ingredientUsed(8);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha9) && !coolActive[8])
+            {
+                ingredientUsed(9);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha0) && !coolActive[9])
+            {
+                ingredientUsed(10);
+            }
+
+            // Check bin keys
+            if (Input.GetKeyDown(KeyCode.LeftAlt))
+            {
+                leftShiftState = true;
+                leftBinText.enabled = true;
+            }
+            if (Input.GetKeyDown(KeyCode.RightAlt))
+            {
+                rightShiftState = true;
+                rightBinText.enabled = true;
+            }
+            if (Input.GetKeyUp(KeyCode.LeftAlt))
+            {
+                leftShiftState = false;
+                leftBinText.enabled = false;
+            }
+            if (Input.GetKeyUp(KeyCode.RightAlt))
+            {
+                rightShiftState = false;
+                rightBinText.enabled = false;
+            }
+
+            updateIngredientTimers(); // update all timers once per frame
+
+            // Set any required new colors
+            for (int i = 0; i < 10; i++)
+            {
+                if (newColor[i])
                 {
-                    coolTime[i] = 0;
-                    coolActive[i] = false;
+                    generateNewColor(i); // generate and set new color
+                    newColor[i] = false; // clear new color flag
                 }
-                coolTimers[i].GetComponent<Text>().text = coolTime[i].ToString("0.0") + "s";
-                coolTime[i] -= Time.deltaTime;
+            }
+        } else
+        {
+            // Run inital countdown timer
+            startCountdownTime -= Time.deltaTime;
+            if (startCountdownTime.ToString("0") == "0") StartCountdown.text = "Go!";
+            else StartCountdown.text = startCountdownTime.ToString("0");
+
+            if (startCountdownTime < 0)
+            {
+                foreach (GameObject obj in hide)
+                {
+                    obj.GetComponent<Renderer>().enabled = true;
+                }
+                StartCountdown.enabled = false;
+                gameStarted = true;
+            }
+        }
+        
+        
+    }
+
+    // Generate random colour values into colour arrays and set color
+    void generateNewColor(int index)
+    {
+        ingredReds[index] = (byte)Random.Range(0, 255);
+        ingredGreens[index] = (byte)Random.Range(0, 255);
+        ingredBlues[index] = (byte)Random.Range(0, 255);
+        Color color = new Color32(ingredReds[index], ingredGreens[index], ingredBlues[index], 1);
+        Renderer rend = ingredients[index].GetComponent<Renderer>();
+        rend.material.color = color;
+    }
+
+    // Called on use ingredient key press
+    void ingredientUsed(int ingNo)
+    {
+        if (ingNo <= 5)
+        {
+            // Left Player
+            if (leftShiftState)
+            {
+                // Bin Ingredient
+                setIngredientTimer(ingNo - 1); // set timer for that ingredient
+            } else
+            {
+                // Use Ingredient
+                Cauldron.setColorValues(ingredReds[ingNo - 1], ingredGreens[ingNo - 1], ingredBlues[ingNo - 1]);
+                setIngredientTimer(ingNo - 1); // set timer for that ingredient
+            }
+        } else
+        {
+            // Right Player
+            if (rightShiftState)
+            {
+                // Bin Ingredient
+                setIngredientTimer(ingNo - 1); // set timer for that ingredient
+            }
+            else
+            {
+                // Use Ingredient
+                Cauldron.setColorValues(ingredReds[ingNo - 1], ingredGreens[ingNo - 1], ingredBlues[ingNo - 1]);
+                setIngredientTimer(ingNo - 1); // set timer for that ingredient
             }
         }
     }
 
-    void changeColor(int ingNo)
+    // Starts timer for ingredient
+    private void setIngredientTimer(int index)
     {
-        cauld.GetComponent<Renderer>().material.color = new Color32(ingredReds[ingNo - 1], ingredGreens[ingNo - 1], ingredBlues[ingNo - 1], 1);
-        coolTime[ingNo - 1] = cooldownVal;
-        coolActive[ingNo - 1] = true;
-        ingredReds[ingNo - 1] = (byte)Random.Range(0, 255);
-        ingredGreens[ingNo - 1] = (byte)Random.Range(0, 255);
-        ingredBlues[ingNo - 1] = (byte)Random.Range(0, 255);
-        Color color = new Color32(ingredReds[ingNo - 1], ingredGreens[ingNo - 1], ingredBlues[ingNo - 1], 1);
-        Renderer rend = ingredients[ingNo - 1].GetComponent<Renderer>();
-        rend.material.color = color;
+        coolTime[index] = cooldownVal;
+        coolActive[index] = true; // set timer active flag
+        ingredients[index].GetComponent<Renderer>().sharedMaterial = inActive; // set waiting image
     }
+
+    // Checks all timers and updates
+    private void updateIngredientTimers()
+    {
+        for (int index = 0; index < 10; index++)
+        {
+            if (coolActive[index])
+            {
+                coolTime[index] -= Time.deltaTime;
+                if (coolTime[index] <= 0)
+                {
+                    coolTime[index] = 0;
+                    coolActive[index] = false; // clear flag for timer being active
+                    ingredients[index].GetComponent<Renderer>().sharedMaterial = normalMaterial; // reset waiting image
+                    newColor[index] = true; // set flag for recolor
+                }
+                coolTimers[index].GetComponent<Text>().text = coolTime[index].ToString("0.0") + "s"; // update cooldown text
+            }
+        }
+        
+    }
+
+    
 }
