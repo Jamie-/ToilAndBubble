@@ -169,6 +169,9 @@ namespace WindowsFormsApplication1
             return rval;
         }
 
+
+
+
         private void Tmr_Tick(object sender, EventArgs e)
         {
             tick++;
