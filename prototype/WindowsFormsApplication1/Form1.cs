@@ -150,22 +150,48 @@ namespace WindowsFormsApplication1
             HSVColor cauldrun = new HSVColor(backColor1);
             HSVColor Ingredent = new HSVColor(backColor2);
             Color rval = backColor1;
-            if (pos == "+")
-            {
+            
+                double delta1;
+                double delta2;
+
                 //rval = Color.FromArgb(Math.Min(255, rval.R + backColor2.R), Math.Min(255, rval.G + backColor2.G), Math.Min(255, rval.B + backColor2.B));
-                cauldrun.hue += (Ingredent.hue- cauldrun.hue) * potincy;
+                if (cauldrun.hue > Ingredent.hue)
+                {
+                    delta1 = (255 - cauldrun.hue) + Ingredent.hue;
+                }
+                else
+                {
+                    delta1 = (255 - Ingredent.hue) + cauldrun.hue;
+                }
+
+                delta2 = Ingredent.hue - cauldrun.hue;
+                if (Math.Abs(delta1) >= Math.Abs(delta2))
+                {
+                    cauldrun.hue += potincy * delta2;
+           
+                }
+                else
+                {
+                    if (cauldrun.hue > Ingredent.hue)
+                    {
+                        cauldrun.hue += potincy * delta1;
+                        cauldrun.hue %= 255;
+
+                    }
+                    else
+                    {
+                        cauldrun.hue += potincy * -1 * delta1;
+                        if (cauldrun.hue < 0)
+                        {
+                            cauldrun.hue = 255 + cauldrun.hue;
+                        }
+                    }
+                }
+
+                   // cauldrun.hue += (Ingredent.hue- cauldrun.hue) * potincy;
                 rval = cauldrun.RgbColor;
 
-            }
-            else
-            if (pos == "-")
-            {
-
-                // rval = Color.FromArgb(Math.Max(0, rval.R - backColor2.R), Math.Max(0, rval.G - backColor2.G), Math.Max(0, rval.B - backColor2.B));
-                //  rval=Color
-                cauldrun.hue -= (Ingredent.hue - cauldrun.hue) * potincy;
-                rval = cauldrun.RgbColor;
-            }
+            
             return rval;
         }
 
