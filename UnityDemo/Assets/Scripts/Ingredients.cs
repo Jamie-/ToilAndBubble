@@ -28,8 +28,11 @@ public class Ingredients : MonoBehaviour {
     private double saturation = 0.6;
     private double value = 1d;
 
+    private System.Random r;
+
     // Use this for initialization
     void Start () {
+        r = new System.Random();
         // Set up all arrays
         ingredients = new GameObject[10];
         coolTimers = new GameObject[10];
@@ -180,7 +183,7 @@ public class Ingredients : MonoBehaviour {
     // Generate random colour values into colour arrays and set color
     void generateNewColor(int index)
     {
-        ingredHues[index] = new System.Random().NextDouble() * 360d;
+        ingredHues[index] = r.NextDouble() * 360d;
         Color color = new HSVColor(ingredHues[index], saturation, value).RgbColor;
         Renderer rend = ingredients[index].GetComponent<Renderer>();
         rend.material.color = color;

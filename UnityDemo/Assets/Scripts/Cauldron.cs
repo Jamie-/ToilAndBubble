@@ -15,6 +15,8 @@ public class Cauldron : MonoBehaviour {
     public Text countdown;
     private float timer;
 
+    public static System.Random r = new System.Random();
+
     // Use this for initialization
     void Start()
     {
@@ -23,8 +25,6 @@ public class Cauldron : MonoBehaviour {
         timer = 60;
 
         // Create a random starting color
-        
-        System.Random r = new System.Random();
         h = r.NextDouble() * 360d;
         color = new HSVColor(h, s, v).RgbColor;
         updateColor(); // set it
@@ -63,7 +63,6 @@ public class Cauldron : MonoBehaviour {
     // Set color of cauldron to it's instance component color values
     void updateColor()
     {
-        color = new HSVColor(h, s, v).RgbColor;
         rend.material.color = color;
     }
 
@@ -91,11 +90,11 @@ public class Cauldron : MonoBehaviour {
 
         if (c1.hue > c2.hue)
         {
-            delta1 = (255 - c1.hue) + c2.hue;
+            delta1 = (360d - c1.hue) + c2.hue;
         }
         else
         {
-            delta1 = (255 - c2.hue) + c1.hue;
+            delta1 = (360d - c2.hue) + c1.hue;
         }
 
         delta2 = c2.hue - c1.hue;
@@ -103,22 +102,20 @@ public class Cauldron : MonoBehaviour {
         if (Math.Abs(delta1) >= Math.Abs(delta2))
         {
             c1.hue += blendFactor * delta2;
-
         }
         else
         {
             if (c1.hue > c2.hue)
             {
                 c1.hue += blendFactor * delta1;
-                c1.hue %= 255;
-
+                c1.hue %= 360;
             }
             else
             {
                 c1.hue += blendFactor * -1 * delta1;
                 if (c1.hue < 0)
                 {
-                    c1.hue = 255 + c1.hue;
+                    c1.hue = 360 + c1.hue;
                 }
             }
         }

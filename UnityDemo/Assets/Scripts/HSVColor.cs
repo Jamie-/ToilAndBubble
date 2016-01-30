@@ -10,7 +10,7 @@ namespace Assets.Scripts
     {
         public HSVColor(Color32 c)
         {
-            this.RgbColor = c;
+            RgbColor = c;
         }
         public HSVColor(double h, double s, double v)
         {
@@ -24,7 +24,7 @@ namespace Assets.Scripts
         double Hue
         {
             get { return this.hue; }
-            set { this.hue = (value < 0) ? 255 + value : value % 255; }
+            set { this.hue = value; }
         }
         double Saturation { get { return this.saturation; } set { this.saturation = value; } }
         double Value { get { return this.value; } set { this.value = value; } }
@@ -40,11 +40,11 @@ namespace Assets.Scripts
             }
         }
 
-        public static void ColorToHSV(Color32 color, out double hue, out double saturation, out double value)
+        public static void ColorToHSV(Color32 c, out double hue, out double saturation, out double value)
         {
-            double r = ((double)color.r) / 255d;
-            double g = ((double)color.g) / 255d;
-            double b = ((double)color.b) / 255d;
+            double r = ((double)c.r) / 255d;
+            double g = ((double)c.g) / 255d;
+            double b = ((double)c.b) / 255d;
 
             double cMax = Math.Max(r, Math.Max(g, b));
             double cMin = Math.Min(r, Math.Min(g, b));
@@ -52,20 +52,20 @@ namespace Assets.Scripts
             double delta = cMax - cMin;
 
             if (delta == 0)
-            {
+            {  
                 hue = 0;
             }
             else if (cMax == r)
             {
-                hue = 60d * ((g - b) / delta) % 6d;
+                hue = 60d * (((g - b) / delta) % 6d);
             }
             else if (cMax == g)
             {
-                hue = 60d * ((b - r) / delta) + 2d;
+                hue = 60d * (((b - r) / delta) + 2d);
             }
-            else //if(cMax == b)
+            else
             {
-                hue = 60d * ((r - g) / delta) + 4d;
+                hue = 60d * (((r - g) / delta) + 4d);
             }
 
             if (delta == 0)
@@ -77,10 +77,12 @@ namespace Assets.Scripts
                 saturation = delta / cMax;
             }
             value = cMax;
+            
         }
 
         public static Color32 HSVToColor(double hue, double saturation, double value)
         {
+            
             double c = value * saturation;
             double x = c * (1d - Math.Abs(((hue / 60d) % 2d) - 1d));
             double m = value - c;
@@ -115,6 +117,7 @@ namespace Assets.Scripts
             G = (byte)((g + m) * 255);
             B = (byte)((b + m) * 255);
 
+            
             return new Color32(R, G, B, 255);
         }
     }
