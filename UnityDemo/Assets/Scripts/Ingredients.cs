@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class Ingredients : MonoBehaviour {
     private const float cooldownVal = 5; // Cool down time constant (seconds)
 
+    public Material normalMaterial;
+    public Material inActive;
     public Text leftBinText;
     public Text rightBinText;
     private bool leftShiftState;
@@ -194,6 +196,7 @@ public class Ingredients : MonoBehaviour {
     {
         coolTime[index] = cooldownVal;
         coolActive[index] = true; // set timer active flag
+        ingredients[index].GetComponent<Renderer>().sharedMaterial = inActive; // set waiting image
     }
 
     // Checks all timers and updates
@@ -208,6 +211,7 @@ public class Ingredients : MonoBehaviour {
                 {
                     coolTime[index] = 0;
                     coolActive[index] = false; // clear flag for timer being active
+                    ingredients[index].GetComponent<Renderer>().sharedMaterial = normalMaterial; // reset waiting image
                     newColor[index] = true; // set flag for recolor
                 }
                 coolTimers[index].GetComponent<Text>().text = coolTime[index].ToString("0.0") + "s"; // update cooldown text
