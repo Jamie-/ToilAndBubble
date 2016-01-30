@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
 public class LeftPotion : MonoBehaviour {
     public Color color;
-    public byte leftRed;
-    public byte leftGreen;
-    public byte leftBlue;
 
     // Use this for initialization
     void Start () {
-        leftRed = (byte)Random.Range(0, 255);
-        leftGreen = (byte)Random.Range(0, 255);
-        leftBlue = (byte)Random.Range(0, 255);
-        color = new Color32(leftRed, leftGreen, leftBlue, 1);
+        double h, s = 0.6, v = 1d;
+        System.Random r = new System.Random();
+        h = r.NextDouble() * 360d;
+        color = new HSVColor(h, s, v).RgbColor;
         Renderer rend = GetComponent<Renderer>();
         rend.material.color = color;
     }

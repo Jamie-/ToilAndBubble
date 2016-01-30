@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Assets.Scripts;
 
 public class Ingredients : MonoBehaviour {
     private const float cooldownVal = 5; // Cool down time constant (seconds)
@@ -22,9 +23,10 @@ public class Ingredients : MonoBehaviour {
     private bool[] coolActive;
     private bool[] newColor;
     private float[] coolTime;
-    private byte[] ingredReds;
-    private byte[] ingredGreens;
-    private byte[] ingredBlues;
+
+    private double[] ingredHues;
+    private double saturation = 0.6;
+    private double value = 1d;
 
     // Use this for initialization
     void Start () {
@@ -34,9 +36,7 @@ public class Ingredients : MonoBehaviour {
         coolTime = new float[10];
         coolActive = new bool[10];
         newColor = new bool[10];
-        ingredReds = new byte[10];
-        ingredGreens = new byte[10];
-        ingredBlues = new byte[10];
+        ingredHues = new double[10];
 
         // Hide binning text
         leftBinText.enabled = false;
@@ -180,10 +180,8 @@ public class Ingredients : MonoBehaviour {
     // Generate random colour values into colour arrays and set color
     void generateNewColor(int index)
     {
-        ingredReds[index] = (byte)Random.Range(0, 255);
-        ingredGreens[index] = (byte)Random.Range(0, 255);
-        ingredBlues[index] = (byte)Random.Range(0, 255);
-        Color color = new Color32(ingredReds[index], ingredGreens[index], ingredBlues[index], 1);
+        ingredHues[index] = new System.Random().NextDouble() * 360d;
+        Color color = new HSVColor(ingredHues[index], saturation, value).RgbColor;
         Renderer rend = ingredients[index].GetComponent<Renderer>();
         rend.material.color = color;
     }
@@ -201,7 +199,7 @@ public class Ingredients : MonoBehaviour {
             } else
             {
                 // Use Ingredient
-                Cauldron.setColorValues(ingredReds[ingNo - 1], ingredGreens[ingNo - 1], ingredBlues[ingNo - 1]);
+                Cauldron.BlendColors(ingredients[ingNo - 1].GetComponent<Renderer>().material.color);
                 setIngredientTimer(ingNo - 1); // set timer for that ingredient
             }
         } else
@@ -215,7 +213,7 @@ public class Ingredients : MonoBehaviour {
             else
             {
                 // Use Ingredient
-                Cauldron.setColorValues(ingredReds[ingNo - 1], ingredGreens[ingNo - 1], ingredBlues[ingNo - 1]);
+                Cauldron.BlendColors(ingredients[ingNo - 1].GetComponent<Renderer>().material.color);
                 setIngredientTimer(ingNo - 1); // set timer for that ingredient
             }
         }

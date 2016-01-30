@@ -1,18 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 
 public class RightPotion : MonoBehaviour {
     public Color color;
-    public byte rightRed;
-    public byte rightGreen;
-    public byte rightBlue;
 
     // Use this for initialization
     void Start () {
-        rightRed = (byte)Random.Range(0, 255);
-        rightGreen = (byte)Random.Range(0, 255);
-        rightBlue = (byte)Random.Range(0, 255);
-        color = new Color32(rightRed, rightGreen, rightBlue, 1);
+        double h, s = 0.6, v = 1d;
+        System.Random r = new System.Random();
+        h = r.NextDouble() * 360d;
+        color = new HSVColor(h, s, v).RgbColor;
         Renderer rend = GetComponent<Renderer>();
         rend.material.color = color;
     }
