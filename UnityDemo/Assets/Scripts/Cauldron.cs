@@ -27,7 +27,7 @@ public class Cauldron : MonoBehaviour {
 
         timer = 60;
     }
-
+    //test
     // Update is called once per frame
     void Update() {
         framesPassed++;
