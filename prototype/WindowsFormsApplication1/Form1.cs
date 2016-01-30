@@ -12,8 +12,9 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
-        const int satuationVal = 60;
-        const int LuminosityVal = 60;
+        const Double satuationVal = 0.6;
+        const Double ValueVal = 1;
+        const double potincy = 0.2; 
         Random r;
         int tick;
         List<ingred> beingused;
@@ -21,10 +22,15 @@ namespace WindowsFormsApplication1
 
         public Form1()
         {
+
             InitializeComponent();
+           
             lblBinLeft.Hide();
             lblBinRight.Hide();
             r = new Random();
+            Cauldren.BackColor = new HSVColor(r.Next(255), satuationVal, ValueVal).RgbColor;
+            Color c = Color.FromArgb(r.Next(255), r.Next(255), r.Next(255));
+           // MessageBox.Show((c == new HSVColor(c).RgbColor).ToString());
             beingused = new List<ingred>();
             items = new ingred[8];
             items[0] = new ingred(PctColor, LblPosneg, PrgTimer);
@@ -36,9 +42,9 @@ namespace WindowsFormsApplication1
             items[6] = new ingred(pictureBox6, label6, progressBar6);
             items[7] = new ingred(pictureBox7, label7, progressBar7);
             tmr.Tick += Tmr_Tick;
-            int p1 = r.Next(255);
-            RightTarget.BackColor = HsvToRgb(p1, satuationVal, LuminosityVal);// Color.FromArgb(r.Next(255), r.Next(255), r.Next(255));
-            LeftTarget.BackColor = HsvToRgb(255-p1, satuationVal, LuminosityVal);// Color.FromArgb(r.Next(255), r.Next(255), r.Next(255));
+            double p1 = r.Next(255);
+            RightTarget.BackColor = new HSVColor(p1,satuationVal, ValueVal).RgbColor;// Color.FromArgb(r.Next(255), r.Next(255), r.Next(255));
+            LeftTarget.BackColor = new HSVColor(255-p1, satuationVal, ValueVal).RgbColor;// Color.FromArgb(r.Next(255), r.Next(255), r.Next(255));
             foreach (ingred i in items)
             {
                 CreateIng(i);
@@ -61,12 +67,12 @@ namespace WindowsFormsApplication1
                 lblBinRight.Show();
             else
                 lblBinRight.Hide();
-            
+
             ShowResults();
             if (tmr.Enabled)
                 switch (e.KeyCode)
                 {
-                  
+
                     case Keys.D1:
                         if (!e.Control)
                             useing(items[0]);
@@ -85,7 +91,7 @@ namespace WindowsFormsApplication1
                         else
                             useing(items[2], false);
                         break;
-                    case Keys.D4:                        
+                    case Keys.D4:
                         if (!e.Control)
                             useing(items[3]);
                         else
@@ -132,52 +138,88 @@ namespace WindowsFormsApplication1
                 beingused.Add(ing);
             }
         }
-/// <summary>
-/// 
-/// </summary>
-/// <param name="backColor1"></param>
-/// <param name="backColor2"></param>
-/// <param name="pos"></param>
-/// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="backColor1"></param>
+        /// <param name="backColor2"></param>
+        /// <param name="pos"></param>
+        /// <returns></returns>
         private Color Combine(Color backColor1, Color backColor2, String pos)
         {
+            HSVColor cauldrun = new HSVColor(backColor1);
+            HSVColor Ingredent = new HSVColor(backColor2);
             Color rval = backColor1;
-            if (pos == "+")
-            {
-                rval = Color.FromArgb(Math.Min(255, rval.R + backColor2.R), Math.Min(255, rval.G + backColor2.G), Math.Min(255, rval.B + backColor2.B));
-            }
-            else
-            if (pos == "-")
-            {
+            
+                double delta1;
+                double delta2;
 
-                rval = Color.FromArgb( Math.Max(0,rval.R - backColor2.R),Math.Max(0,rval.G - backColor2.G), Math.Max(0, rval.B - backColor2.B));
-              //  rval=Color
-            }
+                //rval = Color.FromArgb(Math.Min(255, rval.R + backColor2.R), Math.Min(255, rval.G + backColor2.G), Math.Min(255, rval.B + backColor2.B));
+                if (cauldrun.hue > Ingredent.hue)
+                {
+                    delta1 = (255 - cauldrun.hue) + Ingredent.hue;
+                }
+                else
+                {
+                    delta1 = (255 - Ingredent.hue) + cauldrun.hue;
+                }
+
+                delta2 = Ingredent.hue - cauldrun.hue;
+                if (Math.Abs(delta1) >= Math.Abs(delta2))
+                {
+                    cauldrun.hue += potincy * delta2;
+           
+                }
+                else
+                {
+                    if (cauldrun.hue > Ingredent.hue)
+                    {
+                        cauldrun.hue += potincy * delta1;
+                        cauldrun.hue %= 255;
+
+                    }
+                    else
+                    {
+                        cauldrun.hue += potincy * -1 * delta1;
+                        if (cauldrun.hue < 0)
+                        {
+                            cauldrun.hue = 255 + cauldrun.hue;
+                        }
+                    }
+                }
+
+                   // cauldrun.hue += (Ingredent.hue- cauldrun.hue) * potincy;
+                rval = cauldrun.RgbColor;
+
+            
             return rval;
         }
+
+
+
 
         private void Tmr_Tick(object sender, EventArgs e)
         {
             tick++;
-            
-                for (int i = beingused.Count - 1; i >= 0; i--)
-                {
-                    if (beingused[i].prg.Value <= 0)
-                    {
-                        CreateIng(beingused[i]);
-                        beingused.RemoveAt(i);
-                    }
-                    else
-                        beingused[i].prg.Value--;
-                }
 
-           
+            for (int i = beingused.Count - 1; i >= 0; i--)
+            {
+                if (beingused[i].prg.Value <= 0)
+                {
+                    CreateIng(beingused[i]);
+                    beingused.RemoveAt(i);
+                }
+                else
+                    beingused[i].prg.Value--;
+            }
+
+
             label8.Text = "time: " + (int)(tick / 100);
             if (tick >= 6000)
             {
                 tmr.Enabled = false;
-                MessageBox.Show("game over");
                 lblwinning.Text = "Won";
+                MessageBox.Show("game over");
                 ShowResults();
             }
         }
@@ -186,11 +228,11 @@ namespace WindowsFormsApplication1
         {
             int[] p1score = GetScore(this.RightTarget.BackColor, Cauldren.BackColor);
             int[] p2score = GetScore(this.LeftTarget.BackColor, Cauldren.BackColor);
-            lblPlayer1score.Text = String.Format("red: {0}\ngreen: {1}\n blue: {2}\n total: {3}", p1score[0], p1score[1], p1score[2], p1score[0] + p1score[2] + p1score[1]);
-         lblPlayer2Score.Text= String.Format("red: {0}\ngreen: {1}\n blue: {2}\n total: {3}", p2score[0], p2score[1], p2score[2], p2score[0] + p2score[2] + p2score[1]);
+            lblPlayer1score.Text = String.Format("Acuracy: {0}%",  (p1score[0] + p1score[2] + p1score[1])/3);
+            lblPlayer2Score.Text = String.Format("Acuracy: {0}%",  (p2score[0] + p2score[2] + p2score[1])/3);
             int p2total = p2score[0] + p2score[2] + p2score[1];
             int p1total = p1score[0] + p1score[2] + p1score[1];
-            if (p2total!= p1total)
+            if (p2total != p1total)
             {
                 if (p2total < p1total)
                 {
@@ -200,27 +242,28 @@ namespace WindowsFormsApplication1
                 {
                     ScoreIndicater.Text = ">>";
                 }
-               }
+            }
             else
             {
                 ScoreIndicater.Text = "||";
             }
             //lblPlayer1score.Text;
         }
-        int[] GetScore(Color Target,Color Cauldren)
+        int[] GetScore(Color Target, Color Cauldren)
         {
             int[] scores = new int[3];
-            scores[0] = (int)(100 * (1- ((double)Math.Abs(Target.R - Cauldren.R) / 255)));
-            scores[1] = (int)(100 * (1-((double)Math.Abs(Target.G - Cauldren.G) /255)));
-            scores[2] =(int)( 100 * (1-((double)Math.Abs(Target.B - Cauldren.B) / 255)));
-            return scores;
+            scores[0] = (int)(100 * (1 - ((double)Math.Abs(Target.R - Cauldren.R) / 255)));
+            scores[1] = (int)(100 * (1 - ((double)Math.Abs(Target.G - Cauldren.G) / 255)));
+            scores[2] = (int)(100 * (1 - ((double)Math.Abs(Target.B - Cauldren.B) / 255)));
+           
+                return scores;
         }
 
         private void CreateIng(ingred ingred)
         {
-            ingred.p.BackColor = HsvToRgb(0, satuationVal, LuminosityVal);
+            ingred.p.BackColor = new HSVColor(r.Next(255), satuationVal, ValueVal).RgbColor;
             ingred.pos.Text = r.Next(2) == 0 ? "-" : "+";
-            ingred.prg.Maximum = (r.Next(5) + 1)*100;
+            ingred.prg.Maximum = (r.Next(5) + 1) * 100;
             ingred.prg.Value = ingred.prg.Maximum;
             ingred.prg.Visible = false;
         }
@@ -241,7 +284,7 @@ namespace WindowsFormsApplication1
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            MessageBox.Show("GetReady");
+          //  MessageBox.Show("GetReady");
         }
 
 
@@ -256,129 +299,18 @@ namespace WindowsFormsApplication1
 
 
 
-
-        Color HsvToRgb(double h, double S, double V)
+        class ingred
         {
-            int r;
-             int g;
-            int b;
-            double H = h;
-            while (H < 0) { H += 360; };
-            while (H >= 360) { H -= 360; };
-            double R, G, B;
-            if (V <= 0)
-            { R = G = B = 0; }
-            else if (S <= 0)
+            public PictureBox p;
+            public Label pos;
+            public ProgressBar prg;
+            public ingred(PictureBox p, Label pos, ProgressBar prg)
             {
-                R = G = B = V;
+                this.p = p;
+                this.pos = pos;
+                this.prg = prg;
+                pos.Hide();
             }
-            else
-            {
-                double hf = H / 60.0;
-                int i = (int)Math.Floor(hf);
-                double f = hf - i;
-                double pv = V * (1 - S);
-                double qv = V * (1 - S * f);
-                double tv = V * (1 - S * (1 - f));
-                switch (i)
-                {
-
-                    // Red is the dominant color
-
-                    case 0:
-                        R = V;
-                        G = tv;
-                        B = pv;
-                        break;
-
-                    // Green is the dominant color
-
-                    case 1:
-                        R = qv;
-                        G = V;
-                        B = pv;
-                        break;
-                    case 2:
-                        R = pv;
-                        G = V;
-                        B = tv;
-                        break;
-
-                    // Blue is the dominant color
-
-                    case 3:
-                        R = pv;
-                        G = qv;
-                        B = V;
-                        break;
-                    case 4:
-                        R = tv;
-                        G = pv;
-                        B = V;
-                        break;
-
-                    // Red is the dominant color
-
-                    case 5:
-                        R = V;
-                        G = pv;
-                        B = qv;
-                        break;
-
-                    // Just in case we overshoot on our math by a little, we put these here. Since its a switch it won't slow us down at all to put these here.
-
-                    case 6:
-                        R = V;
-                        G = tv;
-                        B = pv;
-                        break;
-                    case -1:
-                        R = V;
-                        G = pv;
-                        B = qv;
-                        break;
-
-                    // The color is not defined, we should throw an error.
-
-                    default:
-                        //LFATAL("i Value error in Pixel conversion, Value is %d", i);
-                        R = G = B = V; // Just pretend its black/white
-                        break;
-                }
-            }
-            r = Clamp((int)(R * 255.0));
-            g = Clamp((int)(G * 255.0));
-            b = Clamp((int)(B * 255.0));
-            return Color.FromArgb(r, g, b);
-        }
-
-        /// <summary>
-        /// Clamp a value to 0-255
-        /// </summary>
-        int Clamp(int i)
-        {
-            if (i < 0) return 0;
-            if (i > 255) return 255;
-            return i;
-        }
-
-
-
-
-
-
-
-    }
-    class ingred
-    {
-        public PictureBox p;
-        public Label pos;
-        public ProgressBar prg;
-        public ingred(PictureBox p, Label pos, ProgressBar prg)
-        {
-            this.p = p;
-            this.pos = pos;
-            this.prg = prg;
         }
     }
 }

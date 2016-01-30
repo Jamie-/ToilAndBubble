@@ -427,18 +427,20 @@
             // lblPlayer1score
             // 
             this.lblPlayer1score.AutoSize = true;
+            this.lblPlayer1score.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPlayer1score.Location = new System.Drawing.Point(453, 163);
             this.lblPlayer1score.Name = "lblPlayer1score";
-            this.lblPlayer1score.Size = new System.Drawing.Size(41, 13);
+            this.lblPlayer1score.Size = new System.Drawing.Size(101, 31);
             this.lblPlayer1score.TabIndex = 17;
             this.lblPlayer1score.Text = "label10";
             // 
             // lblPlayer2Score
             // 
             this.lblPlayer2Score.AutoSize = true;
+            this.lblPlayer2Score.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPlayer2Score.Location = new System.Drawing.Point(893, 163);
             this.lblPlayer2Score.Name = "lblPlayer2Score";
-            this.lblPlayer2Score.Size = new System.Drawing.Size(41, 13);
+            this.lblPlayer2Score.Size = new System.Drawing.Size(101, 31);
             this.lblPlayer2Score.TabIndex = 18;
             this.lblPlayer2Score.Text = "label11";
             // 

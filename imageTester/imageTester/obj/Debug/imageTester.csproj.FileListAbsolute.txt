@@ -1,0 +1,1 @@
+h:\visual studio 2015\Projects\imageTester\imageTester\bin\Debug\imageTester.exe.config

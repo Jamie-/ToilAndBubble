@@ -7,3 +7,12 @@ h:\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1
 h:\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
 h:\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
 h:\visual studio 2015\Projects\WindowsFormsApplication1\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
+H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
