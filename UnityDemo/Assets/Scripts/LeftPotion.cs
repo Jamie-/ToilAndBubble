@@ -4,7 +4,7 @@ using Assets.Scripts;
 
 public class LeftPotion : MonoBehaviour {
     public Color color;
-    public static double h, s = 0.6, v = 1d;
+    public static double h, s = 0.8, v = 1d;
 
     // Use this for initialization
     void Start () {      

@@ -97,7 +97,7 @@ namespace Assets.Scripts
             }
             value = cMax;
 
-            saturation = 0.6;
+            saturation = 0.8;
             value = 1d;            
         }
 
