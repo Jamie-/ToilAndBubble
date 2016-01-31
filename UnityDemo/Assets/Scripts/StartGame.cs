@@ -14,8 +14,26 @@ public class StartGame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public static string playerOneName;
     public static string playerTwoName;
 
+    private float time;
+
+    public static StartGame instance = null;
+    void Awake()
+    {
+        if (instance != null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        if (this.name == "ContinueButton")
+        {
+            Debug.Log("setting play");
+        }
+    }
+
     public void startGame()
     {
+        time = this.GetComponent<AudioSource>().time;
+        Debug.Log(time);
         Application.LoadLevel("NamePlayers");
     }
 
