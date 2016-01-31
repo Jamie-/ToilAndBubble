@@ -4,10 +4,10 @@ using Assets.Scripts;
 
 public class LeftPotion : MonoBehaviour {
     public Color color;
+    public static double h, s = 0.6, v = 1d;
 
     // Use this for initialization
-    void Start () {
-        double h, s = 0.6, v = 1d;
+    void Start () {      
         h = (Cauldron.Hue + 90) % 360;
         h += (Cauldron.r.NextDouble() * 2 * Cauldron.spread)- Cauldron.spread;
         color = new HSVColor(h, s, v).RgbColor;
