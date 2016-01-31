@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using Assets.Scripts;
+using System;
 
 public class Ingredients : MonoBehaviour {
     private const float cooldownVal = 5; // Cool down time constant (seconds)
@@ -29,6 +30,7 @@ public class Ingredients : MonoBehaviour {
     private double value = 1d;
 
     private System.Random r;
+    private bool initialPass = true;
 
     // Use this for initialization
     void Start () {
@@ -71,6 +73,8 @@ public class Ingredients : MonoBehaviour {
             coolTimers[i] = GameObject.Find("C" + (i+1)); // Build arrray of coolTimers for fast access
             generateNewColor(i); // Generate random ingredient starting colors
         }
+
+        initialPass = false;
 
         // Hide pre game components
         hide = GameObject.FindGameObjectsWithTag("HideBeforeGame");
@@ -183,7 +187,67 @@ public class Ingredients : MonoBehaviour {
     // Generate random colour values into colour arrays and set color
     void generateNewColor(int index)
     {
-        ingredHues[index] = r.NextDouble() * 360d;
+        bool overlap = false;
+        double range = 360d;
+        int countTarget = 0;
+        if (initialPass)
+        {
+            range = 360d / (index + 1);
+            countTarget = index;
+        }
+        else
+        {
+            range = 360d / ingredients.Length;
+            countTarget = ingredients.Length;
+        }
+        double myHue;
+        double theirHue;
+        do
+        {
+            myHue = r.NextDouble() * 360;
+            int k = 0;
+            while (!overlap && k < countTarget)
+            {
+                if (k != index)
+                {
+                    theirHue = ingredHues[k];
+
+                    double delta1;
+                    if(theirHue > myHue)
+                    {
+                        delta1 = 360 - theirHue + myHue;
+                    }
+                    else
+                    {
+                        delta1 = 360 - myHue + theirHue;
+                    }
+
+                    double delta2 = Math.Abs(theirHue - myHue);
+
+                    double upperBound = theirHue + range;
+                    double lowerBound = theirHue - range;
+
+                    if(delta1 < delta2)
+                    {
+                        if(theirHue > myHue)
+                        {
+                            upperBound = (theirHue + range) % 360;
+                            lowerBound = upperBound - 2 * range;
+                        }
+                        else
+                        {
+                            lowerBound = 360 + theirHue - range;
+                            upperBound = lowerBound + 2 * range;
+                        }
+                    }
+
+                    overlap = (upperBound >= myHue) && (lowerBound <= myHue);
+                }
+                k++;
+            }
+        } while (overlap);
+
+        ingredHues[index] = myHue;
         Color color = new HSVColor(ingredHues[index], saturation, value).RgbColor;
         Renderer rend = ingredients[index].GetComponent<Renderer>();
         rend.material.color = color;
