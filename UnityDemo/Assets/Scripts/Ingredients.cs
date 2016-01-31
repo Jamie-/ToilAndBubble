@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using Assets.Scripts;
 using System;
+using System.Collections.Generic;
 
 public class Ingredients : MonoBehaviour {
     private const float cooldownVal = 5; // Cool down time constant (seconds)
@@ -19,6 +20,8 @@ public class Ingredients : MonoBehaviour {
     private GameObject[] hide;
     private float startCountdownTime;
 
+    private HashSet<int> availableHuesLeft;
+    private HashSet<int> availableHuesRight;
     private GameObject[] ingredients;
     private GameObject[] coolTimers;
     private bool[] coolActive;
@@ -34,6 +37,13 @@ public class Ingredients : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        availableHuesLeft = new HashSet<int>();
+        availableHuesRight = new HashSet<int>();
+        for (int j = 0; j < 360; j++)
+        {
+            availableHuesLeft.Add(j);
+            availableHuesRight.Add(j);
+        }
         r = new System.Random();
         // Set up all arrays
         ingredients = new GameObject[10];
@@ -187,70 +197,82 @@ public class Ingredients : MonoBehaviour {
     // Generate random colour values into colour arrays and set color
     void generateNewColor(int index)
     {
-        bool overlap = false;
-        double range = 360d;
-        int countTarget = 0;
-        if (initialPass)
+        double range = 360d / ingredients.Length;
+        double myHue = 0d;
+        if (!initialPass)
         {
-            range = 360d / (index + 1);
-            countTarget = index;
+            myHue = ingredHues[index];
+            updateAvailableHues(index, (int)range, (int)myHue, true);
+        }
+        int hue;
+        if(index < 5)
+        {
+            int[] a = new int[availableHuesLeft.Count];
+            availableHuesLeft.CopyTo(a);
+            hue = a[r.Next(a.Length)];           
         }
         else
         {
-            range = 360d / ingredients.Length;
-            countTarget = ingredients.Length;
+            int[] a = new int[availableHuesRight.Count];
+            availableHuesRight.CopyTo(a);
+            hue = a[r.Next(a.Length)];
         }
-        double myHue;
-        double theirHue;
-        do
-        {
-            myHue = r.NextDouble() * 360;
-            int k = 0;
-            while (!overlap && k < countTarget)
-            {
-                if (k != index)
-                {
-                    theirHue = ingredHues[k];
+        updateAvailableHues(index, (int)range, (int)hue, false);
 
-                    double delta1;
-                    if(theirHue > myHue)
-                    {
-                        delta1 = 360 - theirHue + myHue;
-                    }
-                    else
-                    {
-                        delta1 = 360 - myHue + theirHue;
-                    }
-
-                    double delta2 = Math.Abs(theirHue - myHue);
-
-                    double upperBound = theirHue + range;
-                    double lowerBound = theirHue - range;
-
-                    if(delta1 < delta2)
-                    {
-                        if(theirHue > myHue)
-                        {
-                            upperBound = (theirHue + range) % 360;
-                            lowerBound = upperBound - 2 * range;
-                        }
-                        else
-                        {
-                            lowerBound = 360 + theirHue - range;
-                            upperBound = lowerBound + 2 * range;
-                        }
-                    }
-
-                    overlap = (upperBound >= myHue) && (lowerBound <= myHue);
-                }
-                k++;
-            }
-        } while (overlap);
+        myHue = (double)hue + r.NextDouble() * Math.Pow(-1d, r.Next(2));
 
         ingredHues[index] = myHue;
         Color color = new HSVColor(ingredHues[index], saturation, value).RgbColor;
         Renderer rend = ingredients[index].GetComponent<Renderer>();
         rend.material.color = color;
+    }
+
+    void updateAvailableHues(int index, int range, int hue, bool add)
+    {
+        bool splitRange = false;
+
+        int lowerBound1 = hue - range;
+        int lowerBound2 = 0;
+        int upperBound1 = hue + range;
+        int upperBound2 = 360;
+        if (lowerBound1 < 0)
+        {
+            splitRange = true;
+            lowerBound2 = 360 + lowerBound1;
+            lowerBound1 = 0;
+        }
+        if (upperBound1 > 360)
+        {
+            splitRange = true;
+            upperBound2 = upperBound1 % 360;
+            upperBound1 = 360;
+        }
+
+        for (int j = lowerBound1; j < upperBound1; j++)
+        {
+            if (index < 5)
+            {
+                if (add) availableHuesLeft.Add(j); else availableHuesLeft.Remove(j);
+            }
+            else
+            {
+                if (add) availableHuesRight.Add(j); else availableHuesRight.Remove(j);
+            }
+        }
+        if (splitRange)
+        {
+            for (int j = lowerBound2; j < upperBound2; j++)
+            {
+                if (index < 5)
+                {
+                    if (add) availableHuesLeft.Add(j); else availableHuesLeft.Remove(j);
+                }
+                else
+                {
+                    if (add) availableHuesRight.Add(j); else availableHuesRight.Remove(j);
+                }
+            }
+        }
     }
 
     // Called on use ingredient key press
