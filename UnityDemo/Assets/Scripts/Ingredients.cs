@@ -25,6 +25,7 @@ public class Ingredients : MonoBehaviour {
     private GameObject[] ingredients;
     private GameObject[] coolTimers;
     private GameObject[] imageOverlays;
+    public Material[] materialOverlays;
     private bool[] coolActive;
     private bool[] newColor;
     private float[] coolTime;
@@ -85,6 +86,7 @@ public class Ingredients : MonoBehaviour {
             coolTimers[i] = GameObject.Find("C" + (i + 1)); // Build arrray of coolTimers for fast access
             imageOverlays[i] = GameObject.Find("i" + (i + 1));
             generateNewColor(i); // Generate random ingredient starting colors
+            imageOverlays[i].GetComponent<Renderer>().material = materialOverlays[UnityEngine.Random.Range(0, materialOverlays.Length)]; // Set random item image
         }
 
         initialPass = false;
@@ -334,6 +336,7 @@ public class Ingredients : MonoBehaviour {
                     coolActive[index] = false; // clear flag for timer being active
                     ingredients[index].GetComponent<Renderer>().sharedMaterial = normalMaterial; // reset waiting image
                     imageOverlays[index].GetComponent<Renderer>().enabled = true;
+                    imageOverlays[index].GetComponent<Renderer>().material = materialOverlays[UnityEngine.Random.Range(0, materialOverlays.Length)];
                     newColor[index] = true; // set flag for recolor
                 }
                 coolTimers[index].GetComponent<Text>().text = coolTime[index].ToString("0.0") + "s"; // update cooldown text
