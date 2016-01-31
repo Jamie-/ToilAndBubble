@@ -50,7 +50,7 @@ public class Cauldron : MonoBehaviour {
             if (timer >= 0)
             {
                 timer -= Time.deltaTime;
-                countdown.text = timer.ToString("0") + "s";
+                countdown.text = timer.ToString("0");
             }
             else
             {
