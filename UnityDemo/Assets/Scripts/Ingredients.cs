@@ -10,6 +10,7 @@ public class Ingredients : MonoBehaviour {
 
     public Material normalMaterial;
     public Material inActive;
+    public Material SpriteThing;
     public Text leftBinText;
     public Text rightBinText;
     private bool leftShiftState;
@@ -37,6 +38,8 @@ public class Ingredients : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        SpriteThing.mainTexture = IngredientSpriteMaker.Test();
+
         availableHuesLeft = new HashSet<int>();
         availableHuesRight = new HashSet<int>();
         for (int j = 0; j < 360; j++)
@@ -313,7 +316,7 @@ public class Ingredients : MonoBehaviour {
     {
         coolTime[index] = cooldownVal;
         coolActive[index] = true; // set timer active flag
-        ingredients[index].GetComponent<Renderer>().sharedMaterial = inActive; // set waiting image
+        ingredients[index].GetComponent<Renderer>().sharedMaterial = SpriteThing; // set waiting image
     }
 
     // Checks all timers and updates
