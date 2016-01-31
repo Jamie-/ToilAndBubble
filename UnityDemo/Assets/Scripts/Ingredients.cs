@@ -24,6 +24,7 @@ public class Ingredients : MonoBehaviour {
     private HashSet<int> availableHuesRight;
     private GameObject[] ingredients;
     private GameObject[] coolTimers;
+    private GameObject[] imageOverlays;
     private bool[] coolActive;
     private bool[] newColor;
     private float[] coolTime;
@@ -48,6 +49,7 @@ public class Ingredients : MonoBehaviour {
         // Set up all arrays
         ingredients = new GameObject[10];
         coolTimers = new GameObject[10];
+        imageOverlays = new GameObject[10];
         coolTime = new float[10];
         coolActive = new bool[10];
         newColor = new bool[10];
@@ -80,7 +82,8 @@ public class Ingredients : MonoBehaviour {
             coolActive[i] = false; // Set all coolActive values to false
             newColor[i] = true; // Make all colors require updating
             coolTime[i] = 0; // Set all coolTime values to 0
-            coolTimers[i] = GameObject.Find("C" + (i+1)); // Build arrray of coolTimers for fast access
+            coolTimers[i] = GameObject.Find("C" + (i + 1)); // Build arrray of coolTimers for fast access
+            imageOverlays[i] = GameObject.Find("i" + (i + 1));
             generateNewColor(i); // Generate random ingredient starting colors
         }
 
@@ -314,6 +317,7 @@ public class Ingredients : MonoBehaviour {
         coolTime[index] = cooldownVal;
         coolActive[index] = true; // set timer active flag
         ingredients[index].GetComponent<Renderer>().sharedMaterial = inActive; // set waiting image
+        imageOverlays[index].GetComponent<Renderer>().enabled = false;
     }
 
     // Checks all timers and updates
@@ -329,6 +333,7 @@ public class Ingredients : MonoBehaviour {
                     coolTime[index] = 0;
                     coolActive[index] = false; // clear flag for timer being active
                     ingredients[index].GetComponent<Renderer>().sharedMaterial = normalMaterial; // reset waiting image
+                    imageOverlays[index].GetComponent<Renderer>().enabled = true;
                     newColor[index] = true; // set flag for recolor
                 }
                 coolTimers[index].GetComponent<Text>().text = coolTime[index].ToString("0.0") + "s"; // update cooldown text
