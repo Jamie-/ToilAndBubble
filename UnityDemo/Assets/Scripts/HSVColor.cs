@@ -31,11 +31,7 @@ namespace Assets.Scripts
         public double hue;
         public double saturation;
         public double value;
-        double Hue
-        {
-            get { return this.hue; }
-            set { this.hue = value; }
-        }
+        double Hue{get { return this.hue; }set { this.hue = value; }}
         double Saturation { get { return this.saturation; } set { this.saturation = value; } }
         double Value { get { return this.value; } set { this.value = value; } }
         public Color32 RgbColor

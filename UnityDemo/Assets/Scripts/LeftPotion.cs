@@ -8,7 +8,8 @@ public class LeftPotion : MonoBehaviour {
     // Use this for initialization
     void Start () {
         double h, s = 0.6, v = 1d;
-        h = Cauldron.r.NextDouble() * 360d;
+        h = (Cauldron.Hue + 90) % 360;
+        h += (Cauldron.r.NextDouble() * 2 * Cauldron.spread)- Cauldron.spread;
         color = new HSVColor(h, s, v).RgbColor;
         Renderer rend = GetComponent<Renderer>();
         rend.material.color = color;
