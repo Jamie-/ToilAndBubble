@@ -115,7 +115,7 @@ public class Cauldron : MonoBehaviour {
             }
             else
             {
-                c1.hue += blendFactor * -1 * delta1;
+                c1.hue -= blendFactor * delta1;
                 if (c1.hue < 0)
                 {
                     c1.hue = 360 + c1.hue;
