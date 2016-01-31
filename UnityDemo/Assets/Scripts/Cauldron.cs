@@ -9,7 +9,7 @@ public class Cauldron : MonoBehaviour {
     private int framesPassed;
     public Text frames;
     public Renderer rend;
-
+    
     double h, s = 0.6, v = 1d;
 
     public Text countdown;
