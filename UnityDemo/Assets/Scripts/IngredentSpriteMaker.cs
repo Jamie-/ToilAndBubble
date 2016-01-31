@@ -17,12 +17,12 @@ public class IngredentSpriteMaker : MonoBehaviour
     }
 
     public const int EMPTY = 0;
-    public const int Avoid = 1;
+    public const int AVOID = 1;
     public const int BACKGROUND = 2;
     public const int AvoidCOLORABLE = 3;
     public const int COLORABLE = 4;
     public const int SOLID = 5;
-    public static Texture2D Create(int[,] seed, int scale, bool Flipx, bool flipy, Color c)
+    public static Texture2D Create(int[,] seed, int scale, bool Flipx, bool Flipy, Color c)
     {
 
 
@@ -39,7 +39,7 @@ public class IngredentSpriteMaker : MonoBehaviour
                     case EMPTY:
                         grid[x, y] = emptyCell();
                         break;
-                    case Avoid:
+                    case AVOID:
                         grid[x, y] = avoidCell();
                         break;
                     case BACKGROUND:
@@ -76,32 +76,33 @@ public class IngredentSpriteMaker : MonoBehaviour
                 if (here != EMPTY) continue;
                 bool needsolid = false;
                 if ((y > 0) && (grid[x, y - 1] == AVOID)) needsolid = true;
-                if ((y < cols - 1) && (grid[x, y + 1] == AVOID)) needsolid = true;
+                if ((y < grid.GetLength(1) - 1) && (grid[x, y + 1] == AVOID)) needsolid = true;
                 if ((x > 0) && (grid[x - 1, y] == AVOID)) needsolid = true;
-                if ((x < rows - 1) && (grid[x + 1, y] == AVOID)) needsolid = true;
+                if ((x < grid.GetLength(0) - 1) && (grid[x + 1, y] == AVOID)) needsolid = true;
                 if (needsolid)
                     grid[x, y] = SOLID;
             }
+     return   Draw(grid, 16, c);
     }
 
  static Texture2D Draw(int[,] gridtorender, int scale, Color c) { 
-        var texture = new Texture2D(seed.GetLength(0) * scale, seed.GetLength(1) * scale, TextureFormat.ARGB32, false);
+        var texture = new Texture2D(gridtorender.GetLength(0) * scale, gridtorender.GetLength(1) * scale, TextureFormat.ARGB32, false);
         for (int x = 0; x < gridtorender.GetLength(0); x++)
             for (int y = 0; y < gridtorender.GetLength(1); y++)
             {
                 switch (gridtorender[x, y])
                 {
                     case EMPTY:
-                        DrawRect(x, y, scale, scale, Color.clear);
+                        DrawRect(texture, x, y, scale, scale, Color.clear);
                         break;
                     case BACKGROUND:
-                        DrawRect(x, y, scale, scale, Color.white);
+                        DrawRect(texture, x, y, scale, scale, Color.white);
                         break;
                     case COLORABLE:
-                        DrawRect(x, y, scale, scale, Color.c);
+                        DrawRect(texture, x, y, scale, scale, c);
                         break;
                     case SOLID:
-                        DrawRect(x, y, scale, scale, Color.black);
+                        DrawRect(texture, x, y, scale, scale, Color.black);
                         break;
                 }
                
@@ -119,11 +120,11 @@ public class IngredentSpriteMaker : MonoBehaviour
         // connect texture to material of GameObject this script is attached to
         return texture;
     }
-    int emptyCell()
+   static int emptyCell()
     {
         return EMPTY;
     }
-    int avoidCell()
+    static int avoidCell()
     {
         double val = Random.value;
         if (val < 0.4)
@@ -137,11 +138,11 @@ public class IngredentSpriteMaker : MonoBehaviour
         return SOLID;
         
     }
-    int backgroundCell()
+    static int backgroundCell()
     {
         return BACKGROUND;
     }
-    int AvoidColorableCell()
+    static int AvoidColorableCell()
     {
         double val = Random.value;
         if (val < 0.2)
@@ -158,15 +159,15 @@ public class IngredentSpriteMaker : MonoBehaviour
         return SOLID;
 
     }
-    int ColorableCell()
+    static int ColorableCell()
     {
         return COLORABLE;
     }
-    int SolidCell()
+    static int SolidCell()
     {
         return 5;
     }
-    public static void DrawRect(int x, int y, int h, int w, Color c)
+    public static void DrawRect(Texture2D texture, int x, int y, int h, int w, Color c)
     {
         for (int i = x; i < w; i++)
             for (int j = y; j < h; j++)
