@@ -88,6 +88,8 @@ public class Cauldron : MonoBehaviour {
         HSVColor c1 = new HSVColor(color);
         HSVColor c2 = new HSVColor(color2);
 
+        Debug.Log("");
+
         double delta1;
         double delta2;
 
@@ -123,6 +125,7 @@ public class Cauldron : MonoBehaviour {
             }
         }
 
+        h = c1.hue;
         color = c1.RgbColor;
     }
 }
