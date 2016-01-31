@@ -29,7 +29,7 @@ public class Ingredients : MonoBehaviour {
     private float[] coolTime;
 
     private double[] ingredHues;
-    private double saturation = 0.6;
+    private double saturation = 0.8;
     private double value = 1d;
 
     private System.Random r;

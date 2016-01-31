@@ -10,7 +10,7 @@ public class Cauldron : MonoBehaviour {
     public Text frames;
     public Renderer rend;
 
-    static double h, s = 0.6, v = 1d;
+    static double h, s = 0.8, v = 1d;
     public static double spread = 30d;
 
     public Text countdown;
@@ -87,8 +87,6 @@ public class Cauldron : MonoBehaviour {
     {
         HSVColor c1 = new HSVColor(color);
         HSVColor c2 = new HSVColor(color2);
-
-        Debug.Log("");
 
         double delta1;
         double delta2;
