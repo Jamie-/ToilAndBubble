@@ -3,7 +3,7 @@ using System.Collections;
 using Assets.Scripts;
 
 public class LeftPotion : MonoBehaviour {
-    public Color color;
+    public Color32 color;
     public static double h, s = 0.8, v = 1d;
 
     // Use this for initialization

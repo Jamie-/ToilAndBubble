@@ -222,7 +222,7 @@ public class Ingredients : MonoBehaviour {
         myHue = (double)hue + r.NextDouble() * Math.Pow(-1d, r.Next(2));
 
         ingredHues[index] = myHue;
-        Color color = new HSVColor(ingredHues[index], saturation, value).RgbColor;
+        Color32 color = new HSVColor(ingredHues[index], saturation, value).RgbColor;
         Renderer rend = ingredients[index].GetComponent<Renderer>();
         rend.material.color = color;
     }

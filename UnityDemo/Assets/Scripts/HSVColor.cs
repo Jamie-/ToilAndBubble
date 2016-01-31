@@ -20,6 +20,7 @@ namespace Assets.Scripts
 
         public HSVColor(Color32 c)
         {
+            Debug.Log("1rgb"+c.r + "," + c.g + "," + c.b);
             RgbColor = c;
         }
         public HSVColor(double h, double s, double v)
@@ -47,11 +48,14 @@ namespace Assets.Scripts
         }
         public static void ColorToHSV(Color32 c, out double hue, out double saturation, out double value)
         {
-            Log("r=" + c.r + ", " + "g=" + c.g + ", " + "b=" + c.b);
+            saturation = 0.8;
+            value = 1d;
+
+            Debug.Log("2r=" + c.r + ", " + "g=" + c.g + ", " + "b=" + c.b);
             double r = ((double)c.r) / 255d;
             double g = ((double)c.g) / 255d;
             double b = ((double)c.b) / 255d;
-            Log("r=" + r + ", " + "g=" + g + ", " + "b=" + b);
+            Debug.Log("3r=" + r + ", " + "g=" + g + ", " + "b=" + b);
 
             double cMax = Math.Max(r, Math.Max(g, b));
             double cMin = Math.Min(r, Math.Min(g, b));
@@ -65,40 +69,25 @@ namespace Assets.Scripts
                 hue = 0;
                 Log("NoMax");
             }
-            else if (cMax == r)
-            {
-                /*Math.Abs(g-b) prevents the hue from being negative if 
-                 *b is larger than g, which might have been causing the grey goo
-                 *scenario. same applies to for cMax=g and cMax=b
-                 */                
-                hue = 60d * ((Math.Abs(g - b) / delta) % 6d);
+            else if (cMin == r)
+            {             
+                hue = 60d * (3-(g - b / delta) /*% 6d*/);
                 Log("R Max");
             }
-            else if (cMax == g)
+            else if (cMin == g)
             {
-                hue = 60d * ((Math.Abs(b - r) / delta) + 2d);
+                hue = 60d * (5-(b - r / delta) /*+ 2d*/);
                 Log("G Max");
             }
             else
             {
-                hue = 60d * ((Math.Abs(r - g) / delta) + 4d);
+                hue = 60d * (1-(r - g / delta) /*+ 4d*/);
                 Log("B Max");
             }
 
-            Log("Hue=" + hue);
+            if (hue < 0) hue += 360;
 
-            if (delta == 0)
-            {
-                saturation = 0;
-            }
-            else
-            {
-                saturation = delta / cMax;
-            }
-            value = cMax;
-
-            saturation = 0.8;
-            value = 1d;            
+            Debug.Log("Hue=" + hue);       
         }
 
         public static Color32 HSVToColor(double hue, double saturation, double value)

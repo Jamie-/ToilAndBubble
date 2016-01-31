@@ -5,7 +5,7 @@ using Assets.Scripts;
 using System;
 
 public class Cauldron : MonoBehaviour {
-    public static Color color;
+    public static Color32 color;
     private int framesPassed;
     public Text frames;
     public Renderer rend;
@@ -88,6 +88,9 @@ public class Cauldron : MonoBehaviour {
         HSVColor c1 = new HSVColor(color);
         HSVColor c2 = new HSVColor(color2);
 
+        Debug.Log("4r=" + color.r + " g=" + color.g + " b=" + color.b);
+        Debug.Log("h1=" + c1.hue + " h2=" + c2.hue);
+
         double delta1;
         double delta2;
 
@@ -105,9 +108,11 @@ public class Cauldron : MonoBehaviour {
         if (Math.Abs(delta1) >= Math.Abs(delta2))
         {
             c1.hue += blendFactor * delta2;
+            Debug.Log("diff=" + delta2);
         }
         else
         {
+            Debug.Log("diff=" + delta1);
             if (c1.hue > c2.hue)
             {
                 c1.hue += blendFactor * delta1;
@@ -123,7 +128,9 @@ public class Cauldron : MonoBehaviour {
             }
         }
 
+        Debug.Log("5new hue=" + c1.hue);
         h = c1.hue;
         color = c1.RgbColor;
+        Debug.Log("r=" + color.r + " g=" + color.g + " b=" + color.b);
     }
 }
