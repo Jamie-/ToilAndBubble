@@ -12,6 +12,8 @@ namespace Assets.Scripts
         public const int AvoidCOLORABLE = 3;
         public const int COLORABLE = 4;
         public const int SOLID = 5;
+
+        // Generate texture method for given test array
         public static Texture2D Test()
         {
             int[,] seed = new int[,]{
@@ -41,17 +43,12 @@ namespace Assets.Scripts
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
             };
-
-
             return Create(seed, 16, false, false, Color.red);
         }
+
+        // Create Texture2D
         public static Texture2D Create(int[,] seed, int scale, bool Flipx, bool Flipy, Color c)
         {
-
-
-
-
-
             int[,] grid = new int[seed.GetLength(0), seed.GetLength(1)];
             for (int x = 0; x < seed.GetLength(0); x++)
                 for (int y = 0; y < seed.GetLength(1); y++)
@@ -77,7 +74,6 @@ namespace Assets.Scripts
                         case SOLID:
                             grid[x, y] = SolidCell();
                             break;
-
                     }
                 }
             if (Flipx)
@@ -108,6 +104,7 @@ namespace Assets.Scripts
             return Draw(grid, 16, c);
         }
 
+        // ######
         static Texture2D Draw(int[,] gridtorender, int scale, Color c)
         {
             var texture = new Texture2D(gridtorender.GetLength(0) * scale, gridtorender.GetLength(1) * scale, TextureFormat.ARGB32, false);
@@ -139,10 +136,12 @@ namespace Assets.Scripts
             // connect texture to material of GameObject this script is attached to
             return texture;
         }
+
         static int emptyCell()
         {
             return EMPTY;
         }
+
         static int avoidCell()
         {
             double val = Random.value;
@@ -157,10 +156,12 @@ namespace Assets.Scripts
             return SOLID;
 
         }
+
         static int backgroundCell()
         {
             return BACKGROUND;
         }
+
         static int AvoidColorableCell()
         {
             double val = Random.value;
@@ -179,14 +180,17 @@ namespace Assets.Scripts
             return SOLID;
 
         }
+
         static int ColorableCell()
         {
             return COLORABLE;
         }
+
         static int SolidCell()
         {
             return 5;
         }
+
         public static void DrawRect(Texture2D texture, int x, int y, int h, int w, Color c)
         {
             for (int i = x; i < x + w; i++)
