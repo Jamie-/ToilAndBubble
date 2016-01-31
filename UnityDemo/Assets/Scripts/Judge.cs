@@ -12,8 +12,8 @@ namespace Assets.Scripts
 
         public static void updateStats()
         {
-            leftScore = (360 - getDifference(Cauldron.Hue, LeftPotion.h)) / 360 * 100;
-            rightScore = (360 - getDifference(Cauldron.Hue, RightPotion.h)) / 360 * 100;
+            leftScore = (180 - getDifference(Cauldron.Hue, LeftPotion.h)) / 180 * 100;
+            rightScore = (180 - getDifference(Cauldron.Hue, RightPotion.h)) / 180 * 100;
             if (leftScore > rightScore) winnerName = "Left"; else winnerName = "Right";
         }
 
@@ -33,5 +33,20 @@ namespace Assets.Scripts
 
             return Math.Min(delta1, delta2);
         }
+
+        /*returns a value from -100 to 100, where 0 means
+         *the players are equally far(knot in the middle),
+         *-100 means the cauldron matches left (knot all 
+         *the way left), and 100 means cauldron matches right
+         */
+        public static double getTugOfWarDisplacement()
+        {
+            double deltaLeft = getDifference(Cauldron.Hue, LeftPotion.h);
+            if ((int)deltaLeft == 0) return -100;
+            double deltaRight = getDifference(Cauldron.Hue, RightPotion.h);
+            if ((int)deltaRight == 0) return 100;
+
+            return (Math.Log10(deltaLeft / deltaRight) / Math.Log10(180)) * 100;
+        } 
     }
 }
