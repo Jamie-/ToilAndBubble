@@ -26,8 +26,8 @@ public class Judge : MonoBehaviour
             Debug.Log(leftScore);
             Debug.Log(rightScore);
             if (leftScore == rightScore) winnerName = "Draw";
-            else if (leftScore > rightScore) winnerName = "Left";
-            else winnerName = "Right";
+            else if (leftScore > rightScore) winnerName = "Left wins";
+            else winnerName = "Right wins";
         }
 
         private static double getDifference(double one, double two)
