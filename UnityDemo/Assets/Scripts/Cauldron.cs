@@ -25,7 +25,7 @@ public class Cauldron : MonoBehaviour {
     {
         // Set instance variables
         rend = GetComponent<Renderer>();
-        timer = 60;
+        timer = 78;
 
         // Create a random starting color
         h = r.NextDouble() * 360d;
