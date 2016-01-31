@@ -46,3 +46,6 @@ H:\Toil_And_Trouble\ToilAndBubble\UnityDemo\Temp\bin\Debug\UnityEngine.Networkin
 H:\Toil_And_Trouble\ToilAndBubble\UnityDemo\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 H:\Toil_And_Trouble\ToilAndBubble\UnityDemo\obj\Debug\Assembly-CSharp.dll
 H:\Toil_And_Trouble\ToilAndBubble\UnityDemo\obj\Debug\Assembly-CSharp.pdb
+\\ugsamba\rgsp1g15\rhysplayground\gamejam\git\UnityDemo\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+\\ugsamba\rgsp1g15\rhysplayground\gamejam\git\UnityDemo\obj\Debug\Assembly-CSharp.dll
+\\ugsamba\rgsp1g15\rhysplayground\gamejam\git\UnityDemo\obj\Debug\Assembly-CSharp.pdb
