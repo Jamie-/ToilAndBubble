@@ -6,21 +6,22 @@ using System.Collections;
 public class StartGame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
-    public Text text;
+    public Text text; //Button text
+    
+    public Text inputFieldText1;
+    public Text inputFieldText2;
+
+    public static string playerOneName;
+    public static string playerTwoName;
 
     public void startGame()
     {
-        Application.LoadLevel("Main");
+        Application.LoadLevel("NamePlayers");
     }
 
     public void quitGame()
     {
         Application.Quit();
-    }
-
-    void OnMouseEnter()
-    {
-        Application.LoadLevel(1);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -32,4 +33,18 @@ public class StartGame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         text.fontSize = text.fontSize - 10;
     }
+
+    // For Assigning Player Names
+    public void startMain()
+    {
+        playerOneName = inputFieldText1.text;
+        playerTwoName = inputFieldText2.text;
+        startQuickGame();
+    }
+
+    public void startQuickGame()
+    {
+        Application.LoadLevel("Main");
+    }
+
 }
