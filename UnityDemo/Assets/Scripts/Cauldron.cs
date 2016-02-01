@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using Assets.Scripts;
 using System;
+using System.Threading;
 
 public class Cauldron : MonoBehaviour {
     public static Color32 color;
@@ -25,7 +26,7 @@ public class Cauldron : MonoBehaviour {
     {
         // Set instance variables
         rend = GetComponent<Renderer>();
-        timer = 78;
+        timer = 75;
 
         // Create a random starting color
         h = r.NextDouble() * 360d;
@@ -54,6 +55,7 @@ public class Cauldron : MonoBehaviour {
             }
             else
             {
+				Thread.Sleep (1200);
                 Application.LoadLevel("End");
             }
 
