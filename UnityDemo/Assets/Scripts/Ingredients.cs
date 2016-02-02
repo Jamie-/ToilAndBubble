@@ -307,7 +307,7 @@ public class Ingredients : MonoBehaviour {
             } else
             {
                 // Use Ingredient
-                splashAudioSource.PlayOneShot(splashes[r.Next(4)]);
+                splashAudioSource.PlayOneShot(splashes[r.Next(splashes.Length)]);
                 Cauldron.BlendColors(ingredients[ingNo - 1].GetComponent<Renderer>().material.color);
                 setIngredientTimer(ingNo - 1); // set timer for that ingredient
             }
@@ -322,7 +322,7 @@ public class Ingredients : MonoBehaviour {
             else
             {
                 // Use Ingredient
-                splashAudioSource.PlayOneShot(splashes[r.Next(5)]);
+                splashAudioSource.PlayOneShot(splashes[r.Next(splashes.Length)]);
                 Cauldron.BlendColors(ingredients[ingNo - 1].GetComponent<Renderer>().material.color);
                 setIngredientTimer(ingNo - 1); // set timer for that ingredient
             }

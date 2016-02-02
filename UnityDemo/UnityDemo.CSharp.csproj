@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\LeftPotion.cs" />
     <Compile Include="Assets\Scripts\RightPotion.cs" />
     <Compile Include="Assets\Scripts\StartGame.cs" />
+    <Compile Include="Assets\Scripts\Test.cs" />
     <Compile Include="Assets\Scripts\TitleAnimation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

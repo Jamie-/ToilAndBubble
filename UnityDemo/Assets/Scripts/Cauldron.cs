@@ -55,7 +55,7 @@ public class Cauldron : MonoBehaviour {
             }
             else
             {
-				Thread.Sleep (1200);
+				Thread.Sleep (1500);
                 Application.LoadLevel("End");
             }
 

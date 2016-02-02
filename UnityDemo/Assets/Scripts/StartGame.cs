@@ -2,6 +2,7 @@
 using System.Collections;
  using UnityEngine.EventSystems;  
  using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class StartGame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -45,10 +46,12 @@ public class StartGame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnPointerEnter(PointerEventData eventData)
     {
         text.fontSize = text.fontSize + 10;
+        GetComponent<AudioSource>().Play();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        GetComponent<AudioSource>().Stop();
         text.fontSize = text.fontSize - 10;
     }
 
