@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="no" ?>
 <!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
-<project xmlns="http://audacity.sourceforge.net/xml/" projname="Splashes_data" version="1.3.0" audacityversion="2.1.1" sel0="0.0000000000" sel1="0.3696598639" vpos="32" h="0.0000000000" zoom="3608.7295081967" rate="44100.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="Splashes_data" version="1.3.0" audacityversion="2.1.1" sel0="0.0000000000" sel1="0.5076643991" vpos="352" h="0.0000000000" zoom="3608.7295081967" rate="44100.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
 	<tags/>
 	<wavetrack name="Splash1" channel="0" linked="1" mute="1" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0">
 		<waveclip offset="0.00000000">
@@ -42,7 +42,7 @@
 			<envelope numpoints="0"/>
 		</waveclip>
 	</wavetrack>
-	<wavetrack name="Splash3" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0">
+	<wavetrack name="Splash3" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0">
 		<waveclip offset="0.00000000">
 			<sequence maxsamples="262144" sampleformat="262159" numsamples="15936">
 				<waveblock start="0">
@@ -52,7 +52,7 @@
 			<envelope numpoints="0"/>
 		</waveclip>
 	</wavetrack>
-	<wavetrack name="Splash3" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0">
+	<wavetrack name="Splash3" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0">
 		<waveclip offset="0.00000000">
 			<sequence maxsamples="262144" sampleformat="262159" numsamples="15936">
 				<waveblock start="0">
@@ -66,7 +66,7 @@
 		<waveclip offset="0.00000000">
 			<sequence maxsamples="262144" sampleformat="262159" numsamples="14880">
 				<waveblock start="0">
-					<pcmaliasblockfile summaryfile="e00005de.auf" aliasfile="C:\Users\Callum\workspace\ToilAndBubble\UnityDemo\Assets\Resources\Splash4.wav" aliasstart="0" aliaslen="14880" aliaschannel="0" min="-0.101318" max="0.069366" rms="0.002945"/>
+					<simpleblockfile filename="e0000fbc.au" len="14880" min="-0.331656" max="0.227065" rms="0.009639"/>
 				</waveblock>
 			</sequence>
 			<envelope numpoints="0"/>
@@ -76,27 +76,27 @@
 		<waveclip offset="0.00000000">
 			<sequence maxsamples="262144" sampleformat="262159" numsamples="14880">
 				<waveblock start="0">
-					<pcmaliasblockfile summaryfile="e0000c83.auf" aliasfile="C:\Users\Callum\workspace\ToilAndBubble\UnityDemo\Assets\Resources\Splash4.wav" aliasstart="0" aliaslen="14880" aliaschannel="1" min="-0.101501" max="0.069275" rms="0.002945"/>
+					<simpleblockfile filename="e0000074.au" len="14880" min="-0.332256" max="0.226765" rms="0.009639"/>
 				</waveblock>
 			</sequence>
 			<envelope numpoints="0"/>
 		</waveclip>
 	</wavetrack>
-	<wavetrack name="Splash5" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0">
+	<wavetrack name="Splash5" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0">
 		<waveclip offset="0.00000000">
 			<sequence maxsamples="262144" sampleformat="262159" numsamples="21856">
 				<waveblock start="0">
-					<pcmaliasblockfile summaryfile="e00001e6.auf" aliasfile="C:\Users\Callum\workspace\ToilAndBubble\UnityDemo\Assets\Resources\Splash5.wav" aliasstart="0" aliaslen="21856" aliaschannel="0" min="-0.104187" max="0.172272" rms="0.006045"/>
+					<simpleblockfile filename="e0000424.au" len="21856" min="-0.235947" max="0.390134" rms="0.013689"/>
 				</waveblock>
 			</sequence>
 			<envelope numpoints="0"/>
 		</waveclip>
 	</wavetrack>
-	<wavetrack name="Splash5" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0">
+	<wavetrack name="Splash5" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0">
 		<waveclip offset="0.00000000">
 			<sequence maxsamples="262144" sampleformat="262159" numsamples="21856">
 				<waveblock start="0">
-					<pcmaliasblockfile summaryfile="e0000b62.auf" aliasfile="C:\Users\Callum\workspace\ToilAndBubble\UnityDemo\Assets\Resources\Splash5.wav" aliasstart="0" aliaslen="21856" aliaschannel="1" min="-0.104126" max="0.17218" rms="0.006045"/>
+					<simpleblockfile filename="e00000e2.au" len="21856" min="-0.235808" max="0.389927" rms="0.013689"/>
 				</waveblock>
 			</sequence>
 			<envelope numpoints="0"/>
