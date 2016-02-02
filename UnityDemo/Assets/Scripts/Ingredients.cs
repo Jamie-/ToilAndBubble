@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Assets.Scripts;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 public class Ingredients : MonoBehaviour {
     private const float cooldownVal = 5; // Cool down time constant (seconds)
@@ -29,6 +30,9 @@ public class Ingredients : MonoBehaviour {
     private bool[] coolActive;
     private bool[] newColor;
     private float[] coolTime;
+
+    private AudioClip[] splashes;
+    private AudioSource splashAudioSource;
 
     private double[] ingredHues;
     private double saturation = 0.8;
@@ -97,7 +101,17 @@ public class Ingredients : MonoBehaviour {
         {
             obj.GetComponent<Renderer>().enabled = false;
         }
-	}
+
+        //Load sound effects
+        splashAudioSource = GetComponent<AudioSource>();
+        splashAudioSource.volume = 0.4f;
+        splashes = new AudioClip[5];
+        splashes[0] = Resources.Load<AudioClip>("Splash1");
+        splashes[1] = Resources.Load<AudioClip>("Splash2");
+        splashes[2] = Resources.Load<AudioClip>("Splash3");
+        splashes[3] = Resources.Load<AudioClip>("Splash4");
+        splashes[4] = Resources.Load<AudioClip>("Splash5");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -293,6 +307,7 @@ public class Ingredients : MonoBehaviour {
             } else
             {
                 // Use Ingredient
+                splashAudioSource.PlayOneShot(splashes[r.Next(4)]);
                 Cauldron.BlendColors(ingredients[ingNo - 1].GetComponent<Renderer>().material.color);
                 setIngredientTimer(ingNo - 1); // set timer for that ingredient
             }
@@ -307,6 +322,7 @@ public class Ingredients : MonoBehaviour {
             else
             {
                 // Use Ingredient
+                splashAudioSource.PlayOneShot(splashes[r.Next(5)]);
                 Cauldron.BlendColors(ingredients[ingNo - 1].GetComponent<Renderer>().material.color);
                 setIngredientTimer(ingNo - 1); // set timer for that ingredient
             }

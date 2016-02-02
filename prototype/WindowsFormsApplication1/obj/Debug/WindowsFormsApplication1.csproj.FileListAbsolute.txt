@@ -16,3 +16,12 @@ H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\Windo
 H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
 H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
 H:\rhysplayground\gamejam\git\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+C:\Users\Callum\workspace\ToilAndBubble\prototype\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\Users\Callum\workspace\ToilAndBubble\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+C:\Users\Callum\workspace\ToilAndBubble\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+C:\Users\Callum\workspace\ToilAndBubble\prototype\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\Users\Callum\workspace\ToilAndBubble\prototype\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\Users\Callum\workspace\ToilAndBubble\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+C:\Users\Callum\workspace\ToilAndBubble\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
+C:\Users\Callum\workspace\ToilAndBubble\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\Callum\workspace\ToilAndBubble\prototype\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
