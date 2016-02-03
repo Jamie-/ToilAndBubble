@@ -104,7 +104,7 @@ public class Ingredients : MonoBehaviour {
 
         //Load sound effects
         splashAudioSource = GetComponent<AudioSource>();
-        splashAudioSource.volume = 0.4f;
+        splashAudioSource.volume = 0.5f;
         splashes = new AudioClip[5];
         splashes[0] = Resources.Load<AudioClip>("Splash1");
         splashes[1] = Resources.Load<AudioClip>("Splash2");
