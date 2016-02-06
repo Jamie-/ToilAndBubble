@@ -31,8 +31,9 @@ public class Ingredients : MonoBehaviour {
     private bool[] newColor;
     private float[] coolTime;
 
+    private AudioClip trash;
     private AudioClip[] splashes;
-    private AudioSource splashAudioSource;
+    private AudioSource sfxAudioSource;    
 
     private double[] ingredHues;
     private double saturation = 0.8;
@@ -103,8 +104,9 @@ public class Ingredients : MonoBehaviour {
         }
 
         //Load sound effects
-        splashAudioSource = GetComponent<AudioSource>();
-        splashAudioSource.volume = 0.5f;
+        sfxAudioSource = GetComponent<AudioSource>();
+        sfxAudioSource.volume = 0.5f;
+        trash = Resources.Load<AudioClip>("Trash");
         splashes = new AudioClip[5];
         splashes[0] = Resources.Load<AudioClip>("Splash1");
         splashes[1] = Resources.Load<AudioClip>("Splash2");
@@ -303,11 +305,12 @@ public class Ingredients : MonoBehaviour {
             if (leftShiftState)
             {
                 // Bin Ingredient
-                setIngredientTimer(ingNo - 1); // set timer for that ingredient
+                sfxAudioSource.PlayOneShot(trash);
+               setIngredientTimer(ingNo - 1); // set timer for that ingredient
             } else
             {
                 // Use Ingredient
-                splashAudioSource.PlayOneShot(splashes[r.Next(splashes.Length)]);
+                sfxAudioSource.PlayOneShot(splashes[r.Next(splashes.Length)]);
                 Cauldron.BlendColors(ingredients[ingNo - 1].GetComponent<Renderer>().material.color);
                 setIngredientTimer(ingNo - 1); // set timer for that ingredient
             }
@@ -317,12 +320,13 @@ public class Ingredients : MonoBehaviour {
             if (rightShiftState)
             {
                 // Bin Ingredient
+                sfxAudioSource.PlayOneShot(trash);
                 setIngredientTimer(ingNo - 1); // set timer for that ingredient
             }
             else
             {
                 // Use Ingredient
-                splashAudioSource.PlayOneShot(splashes[r.Next(splashes.Length)]);
+                sfxAudioSource.PlayOneShot(splashes[r.Next(splashes.Length)]);
                 Cauldron.BlendColors(ingredients[ingNo - 1].GetComponent<Renderer>().material.color);
                 setIngredientTimer(ingNo - 1); // set timer for that ingredient
             }

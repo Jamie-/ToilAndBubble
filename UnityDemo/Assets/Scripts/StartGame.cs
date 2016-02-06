@@ -46,12 +46,12 @@ public class StartGame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnPointerEnter(PointerEventData eventData)
     {
         text.fontSize = text.fontSize + 10;
-        GetComponent<AudioSource>().Play();
+       // GetComponent<AudioSource>().Play();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        GetComponent<AudioSource>().Stop();
+        //GetComponent<AudioSource>().Stop();
         text.fontSize = text.fontSize - 10;
     }
 
